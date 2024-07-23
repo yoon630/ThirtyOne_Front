@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route,Outlet} from 'react-router-dom';
 //login part (dongjae)
 import Card_register from './pages/dongjae/Card_register';
 import Certify from './pages/dongjae/Certify';
@@ -22,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element= {<Layout/>}>
-            <Route path='/' element={<Login/>}/>
+            <Route path="/" element={<Login/>}/>
 
           
           </Route>

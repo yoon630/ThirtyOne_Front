@@ -14,12 +14,15 @@ const Layout_wrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color:white;
 `
 
 const Layout = () => {
-    <Layout_wrapper>
-        <Outlet/>
-    </Layout_wrapper>
+    return (
+        <Layout_wrapper>
+            <Outlet/>
+        </Layout_wrapper>
+    )
 };
 
 export default Layout;
