@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import Customer_signup from "./pages/dongjae/Customer_signup";
 import Layout from "./pages/dongjae/Layout";
 // import Location from "./pages/dongjae/Location";
-// import Login from "./pages/dongjae/Login";
+import Login from "./pages/dongjae/Login";
 // import Seller_signup_1 from "./pages/dongjae/Seller_signup_1";
 // import Seller_signup_2 from "./pages/dongjae/Seller_signup_2";
 // import Signup_main from "./pages/dongjae/Signup_main";
