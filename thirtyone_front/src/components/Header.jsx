@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import logo from "../assets/Logo";
-import bell from "../assets/bell";
 
 const Container = styled.div`
   width: 376px;
@@ -12,7 +10,7 @@ const Title = styled.div`
   width: 100px;
   height: 30px;
 `;
-
+const Logo = styled.img``;
 const Bell = styled.img`
   width: 24px;
   height: 24px;
@@ -22,8 +20,10 @@ const Bell = styled.img`
 const Header = () => {
   return (
     <Container>
-      <Title>{logo}</Title>
-      <Bell src={bell} />
+      <Title>
+        <Logo src="assets/Logo.svg" />
+      </Title>
+      <Bell src="assets/bell.svg" />
     </Container>
   );
 };
