@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 //login part (dongjae)
@@ -35,4 +33,3 @@ function App() {
 }
 
 export default App
->>>>>>> 292b2f4f6b26e3b2762b3b6cf7edd45b0a4f1d8b
