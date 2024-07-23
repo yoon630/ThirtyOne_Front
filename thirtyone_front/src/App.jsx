@@ -1,33 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+//login part (dongjae)
+import Card_register from './pages/dongjae/Card_register';
+import Certify from './pages/dongjae/Certify';
+import Certify_complete from './pages/dongjae/Certify_complete';
+import Customer_signup from './pages/dongjae/Customer_signup';
+import Layout from './pages/dongjae/Layout';
+import Location from './pages/dongjae/Location';
+import Login from './pages/dongjae/Login';
+import Seller_signup_1 from './pages/dongjae/Seller_signup_1';
+import Seller_signup_2 from './pages/dongjae/Seller_signup_2';
+import Signup_main from './pages/dongjae/Signup_main';
+import Subscribe_1 from './pages/dongjae/Subscribe_1';
+import Subscribe_2 from './pages/dongjae/Subscribe_2';
+import Mypage from './pages/dongjae/Mypage';
+import Mypage_change from './pages/dongjae/Mypage_change';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Routes>
+          <Route element= {<Layout/>}>
+            <Route path='/' element={<Login/>}/>
+
+          
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
