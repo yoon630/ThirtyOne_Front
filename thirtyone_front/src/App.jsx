@@ -19,15 +19,7 @@ import Mypage_change from './pages/dongjae/Mypage_change';
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route element= {<Layout/>}>
-            <Route path='/' element={<Login/>}/>
-
-          
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      1234
     </>
   )
 }
