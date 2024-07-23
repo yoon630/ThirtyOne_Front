@@ -14,7 +14,7 @@ const Layout_wrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: blue;
+  background-color: white;
 `;
 
 const Layout = () => {
