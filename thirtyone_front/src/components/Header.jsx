@@ -1,17 +1,41 @@
 import styled from "styled-components";
-import logo from "../assets/Logo";
 
 const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 376px;
-  height: 50px;
+  height: 140px;
   padding: 20px;
+  box-sizing: border-box;
 `;
-const Icon = styled.img``;
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d94844;
+  text-align: center;
+`;
+
+const Logo = styled.img`
+  width: 25px;
+  height: 24px;
+  margin-left: 8px;
+`;
+const Bell = styled.img`
+  width: 24px;
+  height: 24px;
+`;
 
 const Header = () => {
   return (
     <Container>
-      <Icon src={logo}></Icon>
+      <Title>
+        떠리원
+        <Logo src="assets/logo_red.png" />
+      </Title>
+      <Bell src="assets/bell.svg" />
     </Container>
   );
 };
