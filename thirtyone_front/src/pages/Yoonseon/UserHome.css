@@ -1,0 +1,15 @@
+/* Userhome.css */
+.userhome {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* Main content가 화면의 대부분을 차지하도록 */
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
