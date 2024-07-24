@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
+import Category from "../../components/Category";
+import Store from "../../components/Store";
 import "./UserHome.css";
 
 const UserHome = () => {
@@ -11,7 +13,11 @@ const UserHome = () => {
       <header>
         <Header />
       </header>
-      <main>여기에 카테고리 넣을거임</main>
+      <main>
+        <Category />
+        <div className="store">지금 떨이 중인 가게</div>
+        <Store></Store>
+      </main>
       <footer>
         <Navbar />
       </footer>
