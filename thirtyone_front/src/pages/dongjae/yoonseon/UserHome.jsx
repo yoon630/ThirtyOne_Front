@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const Certify = () => {
+const UserHome = () => {
   return <></>;
 };
 
-export default Certify;
+export default UserHome;
