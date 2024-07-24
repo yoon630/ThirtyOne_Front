@@ -23,7 +23,17 @@ function App() {
         <Routes>
           <Route element= {<Layout/>}>
             <Route path="/" element={<Login/>}/>
-
+            <Route path="/signup" element={<Signup_main/>}/>
+            <Route path="/signup/seller/1" element={<Seller_signup_1/>}/>
+            <Route path="/signup/seller/1/2" element={<Seller_signup_2/>}/>
+            <Route path="/signup/seller/1/2/location" element={<Location/>}/>
+            <Route path="/signup/customer" element={<Customer_signup/>}/>
+            <Route path="/subscribe/1" element={<Subscribe_1/>}/>
+            <Route path="/subscribe/1/2" element={<Subscribe_1/>}/>
+            <Route path="/subscribe/1/2/card" element={<Card_register/>}/>
+            {/* 마이페이지 home이랑 경로 맞춰야함 */}
+            <Route path="/userhome/mypage" element={<Mypage/>}/>
+            <Route path="/userhome/mypage/change" element={<Mypage_change/>}/>
           
           </Route>
         </Routes>
