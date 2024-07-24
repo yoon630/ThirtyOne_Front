@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Login(){
+const Background = styled.div`
+    width:393px;
+    height:852px;
+    background-color:#D94844;
+`
+
+const Login = () => {
     return(
-        <h1>h1</h1>
+        <>
+            <Background>
+
+            </Background>
+        </>
     )
 };
 

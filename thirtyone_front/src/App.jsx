@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route,Outlet} from 'react-router-dom';
 //login part (dongjae)
 import Card_register from './pages/dongjae/Card_register';
 import Certify from './pages/dongjae/Certify';
@@ -15,11 +15,26 @@ import Subscribe_1 from './pages/dongjae/Subscribe_1';
 import Subscribe_2 from './pages/dongjae/Subscribe_2';
 import Mypage from './pages/dongjae/Mypage';
 import Mypage_change from './pages/dongjae/Mypage_change';
-
+import SellerHome from './pages/jaheok/SellerHome';
+import Map from './pages/jaheok/Map';
+import ProductRegistration from './pages/jaheok/ProductRegistration';
+import SellingManage from './pages/jaheok/SellingManage';
+import SellingHistory from './pages/jaheok/SellingHistory';
 function App() {
   return (
     <>
-      1234
+      <BrowserRouter>
+        <Routes>
+          <Route element= {<Layout/>}>
+            <Route path="/" element={<Login/>}/>
+            <Route path="/sellerhome" element={<SellerHome/>}/>
+            <Route path="/map" element={<Map/>}/>
+            <Route path="/productregi" element={<ProductRegistration/>}/>
+            <Route path="/sellingmanage" element={<SellingManage/>}/>
+            <Route path="/sellinghistory" element={<SellingHistory/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
