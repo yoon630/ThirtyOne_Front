@@ -16,7 +16,9 @@ const UserHome = () => {
       <main>
         <Category />
         <div className="store">지금 떨이 중인 가게</div>
-        <Store></Store>
+        <div className="storecontainer">
+          <Store></Store>
+        </div>
       </main>
       <footer>
         <Navbar />

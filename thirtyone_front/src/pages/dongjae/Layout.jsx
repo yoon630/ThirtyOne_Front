@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
 const Layout_wrapper = styled.div`
-  width: 393px;
-  height: 852px;
+  width: 376px;
+  height: 812px;
   display: flex;
   flex-direction: column;
   border: 1px solid black;

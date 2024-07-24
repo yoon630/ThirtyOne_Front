@@ -3,18 +3,22 @@ import styled from "styled-components";
 import React from "react";
 
 const Box = styled.div`
-  width: 100%;
+  width: 350px;
   height: 120px;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 3px 3px 3px #e0e0e0;
   border-radius: 20px;
   border: 3px solid #f8f8f8;
+  margin: auto;
 `;
 const Image = styled.img`
-  width: 96px;
+  width: 100px;
   height: 80px;
+  margin: 5px;
 `;
 
 const TitleBox = styled.div`
