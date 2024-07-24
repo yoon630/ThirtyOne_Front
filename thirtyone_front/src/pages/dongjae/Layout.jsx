@@ -10,6 +10,7 @@ const Layout_wrapper = styled.div`
   border: 1px solid black;
   justify-content: space-between;
   align-items: center;
+  justify-items:center;
   position: absolute;
   top: 50%;
   left: 50%;
