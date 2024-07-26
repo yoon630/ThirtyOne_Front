@@ -13,6 +13,7 @@ const Container = styled.div`
   justify-content: center; /* 중앙 정렬 */
   box-sizing: border-box;
   align-items: center;
+  background-color: white;
 `;
 const Atag = styled(Link)`
   text-decoration: none;

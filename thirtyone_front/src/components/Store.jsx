@@ -36,14 +36,14 @@ const Text = styled.div`
   font-weight: bold;
 `;
 
-const Store = () => {
+const Store = ({ store, img, call, time }) => {
   return (
     <Box>
-      <Image src="assets/store.png"></Image>
+      <Image src={img}></Image>
       <TitleBox>
-        <Text>파리바게트 인하대점</Text>
-        <Text>전화번호 : </Text>
-        <Text>영업시간 : </Text>
+        <Text>{store}</Text>
+        <Text>전화번호 : {call}</Text>
+        <Text>영업시간 : {time}</Text>
       </TitleBox>
     </Box>
   );
