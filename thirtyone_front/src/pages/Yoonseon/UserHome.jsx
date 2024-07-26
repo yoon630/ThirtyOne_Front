@@ -1,6 +1,6 @@
 // 사용자 Home 페이지
 import React from "react";
-import Header from "../../components/Header";
+import MainHeader from "../../components/MainHeader";
 import Navbar from "../../components/Navbar";
 import Category from "../../components/Category";
 import Store from "../../components/Store";
@@ -34,7 +34,7 @@ const UserHome = () => {
   return (
     <div className="userhome">
       <header>
-        <Header />
+        <MainHeader />
       </header>
       <Category />
       <div className="store">지금 떨이 중인 가게</div>

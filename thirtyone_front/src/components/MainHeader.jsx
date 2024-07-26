@@ -28,7 +28,8 @@ const Bell = styled.img`
   height: 24px;
 `;
 
-const Header = () => {
+// 이전 화살표 버튼 없는 그냥 메인 홈 헤더
+const MainHeader = () => {
   return (
     <Container>
       <Title>
@@ -40,4 +41,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default MainHeader;

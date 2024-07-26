@@ -40,21 +40,51 @@ const Label = styled.span`
 `;
 
 const categories = [
-  { name: "빵", icon: "assets/bread.svg", link: "/bread" },
-  { name: "고기", icon: "assets/meat.svg", link: "/meat" },
-  { name: "채소", icon: "assets/vege.svg", link: "/vegetable" },
-  { name: "간식", icon: "assets/snack.svg", link: "/snack" },
-  { name: "반찬", icon: "assets/sidedish.svg", link: "/side-dish" },
-  { name: "과일", icon: "assets/fruit.svg", link: "/fruit" },
+  {
+    category: "bread ",
+    type: "빵",
+    icon: "assets/bread.svg",
+    link: "/itempage/bread",
+  },
+  {
+    category: "meat",
+    type: "고기",
+    icon: "assets/meat.svg",
+    link: "/itempage/meat",
+  },
+  {
+    category: "vegetable",
+    type: "채소",
+    icon: "assets/vege.svg",
+    link: "/itempage/vegetable",
+  },
+  {
+    category: "snack",
+    type: "간식",
+    icon: "assets/snack.svg",
+    link: "/itempage/snack",
+  },
+  {
+    category: "side-dish",
+    type: "반찬",
+    icon: "assets/sidedish.svg",
+    link: "/itempage/side-dish",
+  },
+  {
+    category: "fruit",
+    type: "과일",
+    icon: "assets/fruit.svg",
+    link: "/itempage/fruit",
+  },
 ];
 
 const Category = () => {
   return (
     <GridContainer>
       {categories.map((category) => (
-        <GridItem to={category.link} key={category.name}>
-          <Icon src={category.icon} alt={category.name} />
-          <Label>{category.name}류</Label>
+        <GridItem to={`/itempage/${category.category}`} key={category.type}>
+          <Icon src={category.icon} alt={category.type} />
+          <Label>{category.type}류</Label>
         </GridItem>
       ))}
     </GridContainer>

@@ -19,16 +19,15 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Login />} />
-            <Route path="/location" element={<Location/>}/>
-            <Route path="/subscribe" element={<Subscribe/>}/>
+            <Route path="/location" element={<Location />} />
+            <Route path="/subscribe" element={<Subscribe />} />
 
             <Route path="/userhome" element={<UserHome />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search" element={<Search />} />
 
-            <Route path="/itempage" element={<ItemPage />} />
+            <Route path="/itempage/:category" element={<ItemPage />} />
             <Route path="/itemorder" element={<ItemOrder />} />
-          
           </Route>
         </Routes>
       </BrowserRouter>
