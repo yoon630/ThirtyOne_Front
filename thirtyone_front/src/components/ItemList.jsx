@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import React from "react";
-import Store from "./Store";
 
 const ListContainer = styled.div`
   width: 345px;
-  height: 100px;
+  height: 120px;
   padding: 8px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -75,21 +74,54 @@ const StoreName = styled.div`
   box-sizing: border-box;
   align-items: center;
   margin-left: 8px;
+  display: flex;
+  margin-top: 8px;
+`;
+
+const SelectBtn = styled.button`
+  display: flex;
+  padding: 3px;
+  width: 40px;
+  border: none;
+  background: #d94844;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  align-items: center;
+  border-radius: 10px;
+  margin-left: auto;
+  justify-content: center;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 `;
 
 // 떨이 상품 담는 컴포넌트 -> ItemPage 페이지에 들어감
-const ItemList = () => {
+const ItemList = ({ onSelect }) => {
+  // 여기 item부분을 나중에 axios로 데이터 가져오는걸로 수정하기!!
+  const item = {
+    name: "소고기 400g",
+    price: "15000원",
+    salePrice: "10000원",
+    store: "ABC 정육",
+    amount: 1,
+  };
+
   return (
     <ListContainer>
       <ItemImage src="" />
       <TextBox>
-        <ItemTitle>소고기 400g</ItemTitle>
+        <ItemTitle>{item.name}</ItemTitle>
         <ItemPrice>
-          <OriginalPrice>15000원</OriginalPrice>
-          <Arrow src="assets/arrow.svg" />
-          <SalePrice>10000원</SalePrice>
+          <OriginalPrice>{item.price}</OriginalPrice>
+          <Arrow src="/assets/arrow.svg" />
+          <SalePrice>{item.salePrice}</SalePrice>
         </ItemPrice>
-        <StoreName>ABC 정육</StoreName>
+        <StoreName>
+          {item.store}
+          <SelectBtn onClick={() => onSelect(item)}>담기</SelectBtn>
+        </StoreName>
       </TextBox>
     </ListContainer>
   );
