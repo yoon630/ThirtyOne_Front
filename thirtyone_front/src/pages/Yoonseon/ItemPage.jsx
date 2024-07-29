@@ -47,6 +47,25 @@ const Price = styled.p`
   color: #656565;
   font-weight: bold;
 `;
+const QuantityContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const Button = styled.button`
+  background-color: #d94844;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #a73230;
+  }
+`;
 
 const categories = [
   { type: "빵", icon: "/assets/bread.svg", link: "bread" },
@@ -67,11 +86,25 @@ const ItemPage = () => {
   // 모달창에 각 가게 상품 정보들을 ItemList컴포넌트에 주고받는 상태관리
   const [selectedItem, setSelectedItem] = useState(null); // 선택된 아이템 정보를 저장할 상태
 
+  const [quantity, setQuantity] = useState(1); // 수량 관리하는 useState
+
   // 상태 관리 함수들
   // 모달 팝업 창 토글하는 함수
   const toggleModal = (item) => {
     setSelectedItem(item);
     setShowModal(!showModal);
+    setQuantity(1); // 수량 선택되면 reset하기
+  };
+
+  // 수량 조절하는 핸들러 함수
+  const incrementQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
   // 클릭한 카테고리에 대한 정보
@@ -98,7 +131,12 @@ const ItemPage = () => {
             <Text>{selectedItem.store}</Text>
             <Price>정가 : {selectedItem.price}</Price>
             <Text>떨이 할인가 : {selectedItem.salePrice}</Text>
-            <Text>수량 : {selectedItem.amount}</Text>
+            <QuantityContainer>
+              <Text>수량 : </Text>
+              <Button onClick={decrementQuantity}>-</Button>
+              <Text>{quantity}</Text>
+              <Button onClick={incrementQuantity}>+</Button>
+            </QuantityContainer>
           </ModalPopup>
         )}
       </main>
