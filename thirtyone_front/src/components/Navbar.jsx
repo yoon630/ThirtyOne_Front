@@ -13,6 +13,8 @@ const Container = styled.div`
   justify-content: center; /* 중앙 정렬 */
   box-sizing: border-box;
   align-items: center;
+  background-color: rgba(255, 255, 255, 1); /* 배경을 불투명하게 설정 */
+  z-index: 1000; /* 다른 요소들보다 위에 표시 */
 `;
 const Atag = styled(Link)`
   text-decoration: none;
