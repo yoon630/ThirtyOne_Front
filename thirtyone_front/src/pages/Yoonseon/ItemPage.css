@@ -10,3 +10,8 @@ main {
     width: 0px;
   }
 }
+
+main::-webkit-scrollbar {
+  display: none; /*Chrome, Safari, Opera*/
+  width: 0px;
+}

@@ -1,12 +1,14 @@
 // 카테고리 선택 후 떨이 상품 나오는 페이지
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PrevHeader from "../../components/PrevHeader";
 import Navbar from "../../components/Navbar";
 import ItemList from "../../components/ItemList";
 import ModalPopup from "../../components/ModalPopup";
+import ConfirmationPopup from "../../components/ConfirmationPopup";
 import "./ItemPage.css";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -88,30 +90,72 @@ const ItemPage = () => {
 
   const [quantity, setQuantity] = useState(1); // 수량 관리하는 useState
 
-  // 상태 관리 함수들
+  // 떨이PICK 후에 예약 완료/실패 상태관리하는 useState
+  const [isConfirmed, setConfirmed] = useState(false); // 떨이픽 누르면 "예약되었습니다" 관리하는 거
+  const [isFailed, setFailed] = useState(false);
+
+  // -------------------API 연결 부분 -------------------------//
+
   // 모달 팝업 창 토글하는 함수
   const toggleModal = (item) => {
-    setSelectedItem(item);
-    setShowModal(!showModal);
-    setQuantity(1); // 수량 선택되면 reset하기
+    if (item) {
+      axios
+        .get(`/api/itemPage/${item.id}`) //요기에 API 주소넣기
+        .then((response) => {
+          const itemData = response.data; // 수량 받아올 변수
+          setSelectedItem(response.data); // 선택된 아이템에 맞는 데이터 가져오기
+          setShowModal(true); // Modal창 보이는 부분 true로 상태 변경
+          setQuantity(itemData.amount); // 수량은 API의 amount값으로 설정
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } else {
+      //선택된 아이템 없으면
+      setShowModal(false); //모달 안보이게 함
+      setSelectedItem(null); // 선택된 아이템 없음
+    }
   };
 
+  //---------- 상태 관리 함수들------------------//
+
   // 수량 조절하는 핸들러 함수
+  // 수량 증가
   const incrementQuantity = () => {
     setQuantity(quantity + 1);
   };
-
+  // 수량 감소
   const decrementQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
 
-  // 클릭한 카테고리에 대한 정보
+  // 떨이픽 관리하는 함수 2개
+  // 떨이 예약 성공
+  const handlePickSuccess = () => {
+    setShowModal(false); // 주문 팝업 안보이게하고
+    setConfirmed(true); // 떨이픽 true로 바꾸기 (예약완료)
+    console.log("예약완료");
+    setTimeout(() => {
+      setConfirmed(false);
+    }, 3000); // "예약완료" 3초뒤에 사라지게 함
+  };
+
+  // 떨이 예약 실패
+  const handlePickFailure = () => {
+    setShowModal(false); // 주문 팝업 안보이게하고
+    setFailed(true); // 떨이픽 실패 true로 바꾸기 (예약실패)
+    setTimeout(() => {
+      setFailed(false);
+    }, 3000);
+  };
+
+  // 클릭한 카테고리에 대한 정보 찾는 변수
   const selectedCategory = categories.find((cat) => cat.link === category);
 
   if (!selectedCategory) {
-    return <div>error</div>;
+    return <div>Category Error</div>;
   }
 
   return (
@@ -126,11 +170,17 @@ const ItemPage = () => {
       <main>
         <ItemList onSelect={toggleModal} />
         {showModal && selectedItem && (
-          <ModalPopup show={showModal} onClose={() => setShowModal(false)}>
+          <ModalPopup
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onPickSuccess={handlePickSuccess}
+            onPickFailure={handlePickFailure}
+            itemData={selectedItem}
+          >
             <Item>{selectedItem.name}</Item>
-            <Text>{selectedItem.store}</Text>
-            <Price>정가 : {selectedItem.price}</Price>
-            <Text>떨이 할인가 : {selectedItem.salePrice}</Text>
+            <Text>{selectedItem.store.name}</Text>
+            <Price>정가 : {selectedItem.price}원</Price>
+            <Text>떨이 할인가 : {selectedItem.sale_price}원</Text>
             <QuantityContainer>
               <Text>수량 : </Text>
               <Button onClick={decrementQuantity}>-</Button>
@@ -139,6 +189,8 @@ const ItemPage = () => {
             </QuantityContainer>
           </ModalPopup>
         )}
+        {isConfirmed && <ConfirmationPopup message={"예약 완료"} />}
+        {isFailed && <ConfirmationPopup message={"예약 실패"} />}
       </main>
       <footer>
         <Navbar />

@@ -1,4 +1,3 @@
-// Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
 import styled from "styled-components";
 import React from "react";
 
@@ -36,6 +35,7 @@ const Text = styled.div`
   font-weight: bold;
 `;
 
+// Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
 const Store = ({ store, img, call, time }) => {
   return (
     <Box>
