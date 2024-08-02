@@ -89,7 +89,8 @@ const ItemPage = () => {
   // 모달창에 각 가게 상품 정보들을 ItemList컴포넌트에 주고받는 상태관리
   const [selectedItem, setSelectedItem] = useState(null); // 선택된 아이템 정보를 저장할 상태
 
-  const [quantity, setQuantity] = useState(1); // 수량 관리하는 useState
+  const [quantity, setQuantity] = useState(0); // 수량 관리하는 useState
+  const [maxQuantity, setMaxQuantity] = useState(1); // 주문가능 최대수량
 
   // 떨이PICK 후에 예약 완료/실패 상태관리하는 useState
   const [isConfirmed, setConfirmed] = useState(false); // 떨이픽 누르면 "예약되었습니다" 관리하는 거
@@ -126,7 +127,8 @@ const ItemPage = () => {
           const itemData = response.data; // 수량 받아올 변수
           setSelectedItem(response.data); // 선택된 아이템에 맞는 데이터 가져오기
           setShowModal(true); // Modal창 보이는 부분 true로 상태 변경
-          setQuantity(itemData.amount); // 수량은 API의 amount값으로 설정
+          setQuantity(0); // 수량은 API의 amount값으로 설정
+          setMaxQuantity(itemData.amount); // 주문가능한 최대 수량 (상품 등록되어있는 최대 수량)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -201,6 +203,7 @@ const ItemPage = () => {
               <Button onClick={decrementQuantity}>-</Button>
               <Text>{quantity}</Text>
               <Button onClick={incrementQuantity}>+</Button>
+              <Text>주문가능 최대 수량: {maxQuantity} </Text>
             </QuantityContainer>
           </ModalPopup>
         )}

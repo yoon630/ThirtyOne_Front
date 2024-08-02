@@ -1,6 +1,6 @@
 // 떨이 상품 주문하는 팝업창 컴포넌트
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -67,13 +67,16 @@ const ModalPopup = ({
   itemData,
   quantity, // quantity를 props로 받아옴
 }) => {
-  if (!show) {
-    return null;
-  }
+  const [buyerId, setBuyerId] = useState(null);
+
+  useEffect(() => {
+    const storedBuyerId = localStorage.getItem("buyerId"); // LocalStorage에서 buyerId 불러오기
+    setBuyerId(storedBuyerId);
+  }, []);
 
   const handlePick = () => {
     const postData = {
-      buyer: 3, // 실제 데이터로 대체 필요
+      buyer: buyerId, // 실제 데이터로 대체 필요 -> 이게 있어야 주문 내역 확인할떄 필요
       amount: quantity, // itempage에서 받아온 quantity값
       sale_product: itemData.id, // 넘겨주는 id값
       store: itemData.store.name,
@@ -91,6 +94,10 @@ const ModalPopup = ({
         }
       });
   };
+
+  if (!show) {
+    return null;
+  }
 
   return (
     <Modaloverlay>
