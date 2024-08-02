@@ -33,7 +33,7 @@ function StoreModal({ store, onClose, onProductSelect }) {
       <div>
         {store.menu.map((item, index) => (
           <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', padding: '10px', border: '1px solid #f0f0f0', borderRadius: '8px', cursor: 'pointer', background: 'white' }} onClick={() => onProductSelect(item)}>
-            <img src="/assets/bread.svg" alt={item.name} style={{ width: '50px', height: '50px', borderRadius: '8px' }} />
+            <img src={item.photo} alt={item.name} style={{ width: '50px', height: '50px', borderRadius: '8px' }} />
             <div style={{ flex: '1', marginLeft: '10px' }}>
               <span style={{ display: 'block', fontSize: '14px', fontWeight: 'bold' }}>{item.name}</span>
               <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '5px' }}>{item.originalPrice}원</span>

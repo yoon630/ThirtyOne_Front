@@ -3,7 +3,7 @@ import styled, { keyframes, css } from 'styled-components';
 import Navbar from '../../components/Navbar';
 import StoreModal from './StoreModal';
 import ProductModal from './ProductModal';
-import axios from "axios"
+import axios from "axios";
 
 function Map() {
   const mapRef = useRef(null);
@@ -11,37 +11,38 @@ function Map() {
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
+  const [markersData, setMarkersData] = useState([]);
 
-  const markersData = [
-    { 
-      lat: 37.4514544, 
-      lng: 126.656194, 
-      name: '파리바게트 인하점',
-      address: '인천 미추홀구 인하로 100',
-      phone: '031-868-8287',
-      hours: '07:30 ~ 23:00',
-      imageUrl: 'public/assets/store.png',
-      menu: [
-        { name: '모카 크림 식빵', store: '파리바게트 인하점', originalPrice: 5000, discountedPrice: 3000, quantity: 3},
-        { name: '딸기우유 생크림빵', store: '파리바게트 인하점', originalPrice: 5000, discountedPrice: 3000, quantity: 3 },
-      ]
-    },
-    // Add more marker data here
-  ];
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//         try {
-//             const response = await axios.get('http://13.125.100.193/store/home');
-//             const data = response.data;
-            
-//         } catch (error) {
-//             console.error('Error fetching data:', error);
-//         }
-//     };
-
-//     fetchData();
-// }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://13.125.100.193/store/list');
+        const data = response.data.map(store => ({
+          lat: store.latitude,
+          lng: store.longitude,
+          name: store.name,
+          address: store.address,
+          phone: store.tel,
+          hours: `${store.open_time.slice(0, 5)} ~ ${store.close_time.slice(0, 5)}`,
+          imageUrl: store.photo,
+          menu: store.sale_products.map(product => ({
+            name: product.name,
+            store: store.name,
+            originalPrice: product.price,
+            discountedPrice: product.sale_price,
+            quantity: product.amount,
+            photo:product.photo,
+            store_id:store.id,
+            id:product.id,
+          }))
+        }));
+        setMarkersData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const { naver } = window;
@@ -87,7 +88,7 @@ function Map() {
         setSelectedStore(markerData);
       });
     });
-  }, [center]);
+  }, [center, markersData]);
 
   const handleProductPick = () => {
     setSelectedProduct(null);

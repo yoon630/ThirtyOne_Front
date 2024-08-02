@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import axios from 'axios';
 
 const fadeIn = keyframes`
   from {
@@ -37,6 +38,7 @@ const ModalContainer = styled.div`
   margin-bottom: 80px; /* Adjusted to keep the modal 80px from the bottom */
 `;
 
+
 function ProductModal({ product, onClose, onPick }) {
   if (!product) return null;
 
@@ -45,10 +47,22 @@ function ProductModal({ product, onClose, onPick }) {
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
-  const handlePickClick = () => {
-    console.log(`떨이 PICK clicked for product: ${product.name}, quantity: ${quantity}`);
-    onPick();
+  const handlePickClick = async () => {
+    console.log(`떨이 PICK clicked for product: ${product.name},${product.id} quantity: ${quantity}`);
+    try {
+      const response = await axios.post('http://13.125.100.193/buyer/pick', {
+        buyer:1,
+        sale_product: product.id,
+        amount: quantity,
+        store:product.store_id,
+      });
+      console.log('Response:', response.data);
+      onPick();
+    } catch (error) {
+      console.error('Error posting pick:', error);
+    }
   };
+  
 
   return (
     <ModalBackground onClick={onClose}>

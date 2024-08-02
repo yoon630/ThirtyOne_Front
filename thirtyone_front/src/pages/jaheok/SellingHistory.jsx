@@ -165,10 +165,18 @@ const SellingHistory = () => {
                 const data = response.data;
                 
                 const pendingOrders = data.products.filter(product => product.buy_step === 'RES' || product.buy_step === 'PIC');
-                const completedOrders = data.products.filter(product => product.buy_step === 'REJ' || product.buy_step === 'COM' || product.buy_step === 'AUT');
+                const completedOrders = data.products.filter(product => product.buy_step === 'REJ' || product.buy_step === 'COM' || product.buy_step === 'AUT'||product.buy_step === 'CAN');
                 
-                setOrdersPending(pendingOrders);
-                setOrdersCompleted(completedOrders);
+                setOrdersPending(pendingOrders.reverse());
+                setOrdersCompleted(completedOrders.reverse());
+
+                const now = new Date();
+                for (const order of pendingOrders) {
+                    if (order.reject_at && new Date(order.reject_at) < now) {
+                        await handleActionClick(order.id, 'AUT');
+                    }
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -200,7 +208,7 @@ const SellingHistory = () => {
                     setOrdersPending(prevOrdersPending => prevOrdersPending.map(order =>
                         order.id === orderId ? { ...order, buy_step: 'PIC' } : order
                     ));
-                } else if (action === 'COM') {
+                } else if (action === 'COM' || action === 'REJ') {
                     setOrdersPending(prevOrdersPending => prevOrdersPending.filter(order => order.id !== orderId));
                     setOrdersCompleted(prevOrdersCompleted => [
                         ...prevOrdersCompleted,
@@ -210,12 +218,12 @@ const SellingHistory = () => {
                         }
                     ]);
                 }
+                window.location.reload();
             }
         } catch (error) {
             console.error('Error updating order status:', error);
         }
     };
-
     return (
         <Background>
             <Header>
@@ -224,10 +232,10 @@ const SellingHistory = () => {
             </Header>
             <TabContainer>
                 <TabButton active={activeTab === 'pending'} onClick={() => handleTabClick('pending')}>
-                    판매중
+                    주문 처리중
                 </TabButton>
                 <TabButton active={activeTab === 'completed'} onClick={() => handleTabClick('completed')}>
-                    판매완료
+                    주문 처리완료
                 </TabButton>
             </TabContainer>
             <Content>
@@ -236,7 +244,10 @@ const SellingHistory = () => {
                         <OrderItem key={index}>
                             <OrderDetails>
                                 <OrderInfo>
-                                    <OrderText>{formatDate(order.created_at)}</OrderText>
+                                    <OrderText>
+                                        {order.buy_step === 'RES' && formatDate(order.created_at)}
+                                        {order.buy_step === 'PIC' && formatDate(order.accept_at)}
+                                    </OrderText>
                                     <OrderText>{order.order_number}</OrderText>
                                     <OrderText>{order.buyer_name}</OrderText>
                                 </OrderInfo>
@@ -266,7 +277,7 @@ const SellingHistory = () => {
                                     <OrderText>{order.buyer_name}</OrderText>
                                 </OrderInfo>
                                 <OrderText>{order.sale_product_name} {order.amount}개</OrderText>
-                                <OrderText>{order.buy_step === 'REJ' ? '주문거절' : order.buy_step === 'COM' ? '픽업완료' : '주문취소'}</OrderText>
+                                <OrderText>{order.buy_step === 'REJ' ? '주문거절' : order.buy_step === 'COM' ? '픽업완료' :order.buy_step === 'AUT' ? '30분 자동취소': '주문취소'}</OrderText>
                             </OrderDetails>
                         </OrderItem>
                     ))}
