@@ -30,7 +30,7 @@ function StoreModal({ store, onClose, onProductSelect }) {
         </div>
       </div>
       <h4 style={{ marginBottom: '10px', color: '#D9534F' }}>떨이 상품</h4>
-      <div>
+      <div style={{ height: '180px', overflowY: 'auto' }}>
         {store.menu.map((item, index) => (
           <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', padding: '10px', border: '1px solid #f0f0f0', borderRadius: '8px', cursor: 'pointer', background: 'white' }} onClick={() => onProductSelect(item)}>
             <img src={item.photo} alt={item.name} style={{ width: '50px', height: '50px', borderRadius: '8px' }} />

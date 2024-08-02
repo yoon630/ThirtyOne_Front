@@ -12,23 +12,32 @@ const Background = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
 `;
 
-const Header = styled.div`
-    width: 100%;
+const HeaderTitle = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #d94844;
+    text-align: center;
+`;
+
+const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    padding: 20px;
-    background-color: #ffffff;
+    width: 100%;
+    max-width: 376px;
+    height: 60px;
+    box-sizing: border-box;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
 `;
 
 const BackIcon = styled.img`
@@ -42,9 +51,9 @@ const BackIcon = styled.img`
 const TabContainer = styled.div`
     display: flex;
     width: 100%;
+    max-width: 376px;
     justify-content: space-around;
-    margin-top: 120px;
-    margin-left: 40px;
+    margin-top: 80px;
     border-bottom: 1px solid #e0e0e0;
 `;
 
@@ -65,15 +74,15 @@ const TabButton = styled.button`
 
 const Content = styled.div`
     width: 100%;
-    max-width: 393px;
+    max-width: 376px;
     height: 100%;
-    padding: 20px 20px 20px 20px;
+    padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 40px;
+    margin-top: 20px; /* TabContainer와의 간격을 위해 추가 */
 `;
 
 const OrderList = styled.div`
@@ -97,6 +106,7 @@ const OrderDetails = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 `;
 
 const OrderInfo = styled.div`
@@ -107,7 +117,6 @@ const OrderInfo = styled.div`
 const OrderText = styled.div`
     font-size: 14px;
     margin-bottom: 5px;
-    width: 80px;
 `;
 
 const OrderActions = styled.div`
@@ -123,7 +132,6 @@ const ActionButton = styled.button`
     border-radius: 8px;
     padding: 5px 10px;
     font-size: 14px;
-    width: 70px;
     cursor: pointer;
 
     &:focus {
@@ -188,7 +196,6 @@ const SellingHistory = () => {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         localStorage.setItem('activeTab', tab);
-        window.location.reload();
     };
 
     const handleBackClick = () => {
@@ -226,10 +233,10 @@ const SellingHistory = () => {
     };
     return (
         <Background>
-            <Header>
+            <HeaderContainer>
                 <BackIcon src="../assets/prev.svg" alt="Back" onClick={handleBackClick} />
-                판매내역
-            </Header>
+                <HeaderTitle>판매 내역</HeaderTitle>
+            </HeaderContainer>
             <TabContainer>
                 <TabButton active={activeTab === 'pending'} onClick={() => handleTabClick('pending')}>
                     주문 처리중

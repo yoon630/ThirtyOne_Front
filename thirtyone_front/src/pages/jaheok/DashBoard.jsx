@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as BarTooltip, Legend as BarLegend } from 'recharts';
-import Navbar from '../../components/Navbar';
-import Header from '../../components/Header';
 
 const pieData = [
   { name: 'Group A', value: 400 },

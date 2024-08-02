@@ -89,6 +89,7 @@ const Icon = styled.img`
 
 const SellerHome = () => {
     const [store, setStore] = useState({});
+    const navigate = useNavigate();
     const typeMapping = {
         'BAK': '빵 & 간식류',
         'BUT': '정육 제품',
@@ -101,9 +102,9 @@ const SellerHome = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://13.125.100.193/store/home/',{
+                const response = await axios.get('http://13.125.100.193/store/home/', {
                     withCredentials: true
-                  });
+                });
                 const item = {
                     ...response.data,
                     type: typeMapping[response.data.type] || response.data.type,
@@ -132,23 +133,19 @@ const SellerHome = () => {
                 <InfoItem>영업 시간: {store.open_time} ~ {store.close_time} </InfoItem>
             </InfoBox>
             <BtnBox>
-                <Btn>
+                <Btn onClick={() => navigate('/productregi')}>
                     <Icon src="./src/assets/discount.svg" alt="Discount" />
                     떨이하기
                 </Btn>
-                <Btn>
-                    <Icon src="./src/assets/write.svg" alt="Register Product" />
-                    상품 등록하기
-                </Btn>
-                <Btn>
+                <Btn onClick={() => navigate('/sellingmanage')}>
                     <Icon src="./src/assets/apple.svg" alt="Manage Product" />
                     상품관리
                 </Btn>
-                <Btn>
+                <Btn onClick={() => navigate('/sellinghistory')}>
                     <Icon src="./src/assets/receipt.svg" alt="Sales History" />
                     판매내역
                 </Btn>
-                <Btn>
+                <Btn onClick={() => navigate('/dashboard')}>
                     <Icon src="../assets/user.svg" alt="My Info" />
                     판매 관리
                 </Btn>

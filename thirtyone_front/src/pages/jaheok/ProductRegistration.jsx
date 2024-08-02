@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Background = styled.div`
     width: 100%;
@@ -109,6 +110,8 @@ const ProductRegistration = () => {
     const [amount, setAmount] = useState('');
     const [content, setContent] = useState('');
 
+    const navigate = useNavigate();
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -120,7 +123,7 @@ const ProductRegistration = () => {
         formData.append('sale_price', salePrice);
         formData.append('amount', amount);
         formData.append('content', content);
-
+        console.log(formData);
         try {
             const response = await axios.post('http://13.125.100.193/store/create/1/product', formData);
             console.log('Product registered successfully:', response.data);
@@ -136,7 +139,7 @@ const ProductRegistration = () => {
     return (
         <Background>
             <Header>
-                <BackIcon src="../assets/prev.svg" alt="Back" />
+                <BackIcon src="../assets/prev.svg" alt="Back" onClick={() => navigate(-1)}/>
                 상품 등록
                 <div></div> {/* Placeholder for spacing */}
             </Header>

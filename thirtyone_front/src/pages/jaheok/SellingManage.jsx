@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Background = styled.div`
     width: 100%;
@@ -19,7 +20,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     padding: 20px;
     background-color: #ffffff;
@@ -41,7 +42,7 @@ const BackIcon = styled.img`
 
 const Content = styled.div`
     width: 100%;
-    max-width: 393px;
+    max-width: 376px;
     height: 100%;
     padding: 80px 20px 20px 20px; /* 헤더 높이만큼 위쪽 패딩 추가 */
     box-sizing: border-box;
@@ -49,13 +50,11 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 60px;
-    margin-left: 40px;
+    margin-top: 20px;
 `;
 
 const ProductList = styled.div`
     width: 100%;
-    max-width: 370px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -110,10 +109,35 @@ const StockCount = styled.div`
     color: ${props => (props.stock > 0 ? 'red' : 'red')};
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 376px;
+  height: 60px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const HeaderTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d94844;
+  text-align: center;
+`;
+
+
 const SellingManage = () => {
     const [products, setProducts] = useState([]);
     const [storeName, setStoreName] = useState('');
-
+    const navigate = useNavigate();
     useEffect(() => {
         // 데이터를 가져오는 함수
         const fetchData = async () => {
@@ -129,18 +153,20 @@ const SellingManage = () => {
 
         fetchData();
     }, []);
-
+    const handleBackClick = () => {
+        navigate(-1);
+      };
     return (
         <Background>
-            <Header>
-                <BackIcon src="../assets/prev.svg" alt="Back" />
-                떨이 상품 관리
-            </Header>
+         <HeaderContainer>
+          <BackIcon src="../assets/prev.svg" alt="Back" onClick={handleBackClick} />
+          <HeaderTitle>상품 관리</HeaderTitle>
+        </HeaderContainer>
             <Content>
                 <ProductList>
                     {products.map((product, index) => (
                         <ProductItem key={index}>
-                        <ProductImage src={`http://13.125.100.193/media/${product.photo}`} alt="product" />
+                            <ProductImage src={`http://13.125.100.193/media/${product.photo}`} alt="product" />
                             <ProductInfo>
                                 <ProductName>{product.name}</ProductName>
                                 <ProductPrice>{product.price}</ProductPrice>
