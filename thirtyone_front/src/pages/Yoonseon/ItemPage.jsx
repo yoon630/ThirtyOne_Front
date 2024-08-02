@@ -7,7 +7,7 @@ import ItemList from "../../components/ItemList";
 import ModalPopup from "../../components/ModalPopup";
 import ConfirmationPopup from "../../components/ConfirmationPopup";
 import "./ItemPage.css";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const TitleContainer = styled.div`
@@ -32,7 +32,7 @@ const Icon = styled.img`
   width: 50px;
   height: 50px;
   margin: 5px;
-  border: 1px solid #d94844;
+  border: 3px solid #d94844;
   border-radius: 20px;
   padding: 8px;
 `;
@@ -69,18 +69,19 @@ const Button = styled.button`
   }
 `;
 
-const categories = [
-  { type: "빵", icon: "/assets/bread.svg", link: "bread" },
-  { type: "고기", icon: "/assets/meat.svg", link: "meat" },
-  { type: "채소", icon: "/assets/vege.svg", link: "vegetable" },
-  { type: "간식", icon: "/assets/snack.svg", link: "snack" },
-  { type: "반찬", icon: "/assets/sidedish.svg", link: "side-dish" },
-  { type: "과일", icon: "/assets/fruit.svg", link: "fruit" },
-];
-
 const ItemPage = () => {
   // 카테고리 선택했을 때 그 카테고리 넘기는 역할
   const { category } = useParams();
+  console.log(category);
+  const location = useLocation(); // Category 컴포넌트에서 URL로 아이콘이랑 카테고리 받아오는 역할
+
+  // URL 쿼리 파라미터에서 카테고리 타입과 아이콘을 추출
+  const queryParams = new URLSearchParams(location.search);
+  const categoryType = queryParams.get("type");
+  const categoryIcon = queryParams.get("icon");
+
+  // ItemList에 넘기는 props
+  const [items, setItems] = useState([]);
 
   //ModalPopup 컴포넌트에 컨트롤하는 useState
   const [showModal, setShowModal] = useState(false);
@@ -95,12 +96,32 @@ const ItemPage = () => {
   const [isFailed, setFailed] = useState(false);
 
   // -------------------API 연결 부분 -------------------------//
+  // 카테고리에 해당하는 아이템 리스트를 가져오는 부분
+  useEffect(() => {
+    axios
+      .get(`http://13.125.100.193/buyer/category/${category}/list`)
+      .then((response) => {
+        // 카테고리와 product_type이 일치하는 데이터 필터링
+        console.log("연결 데이터 확인:", response.data);
+
+        const filteredItems = response.data.filter(
+          (item) =>
+            item.product_type.trim().toLowerCase() ===
+            category.trim().toLowerCase()
+        );
+        console.log("Filtered Items:", filteredItems); // 필터링된 데이터 로그
+        setItems(filteredItems);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.response || error.message);
+      });
+  }, [category]);
 
   // 모달 팝업 창 토글하는 함수
   const toggleModal = (item) => {
     if (item) {
       axios
-        .get(`/api/itemPage/${item.id}`) //요기에 API 주소넣기
+        .get(`http://13.125.100.193/buyer/product/${item.id}`)
         .then((response) => {
           const itemData = response.data; // 수량 받아올 변수
           setSelectedItem(response.data); // 선택된 아이템에 맞는 데이터 가져오기
@@ -151,24 +172,17 @@ const ItemPage = () => {
     }, 3000);
   };
 
-  // 클릭한 카테고리에 대한 정보 찾는 변수
-  const selectedCategory = categories.find((cat) => cat.link === category);
-
-  if (!selectedCategory) {
-    return <div>Category Error</div>;
-  }
-
   return (
     <>
       <header>
         <PrevHeader />
       </header>
       <TitleContainer>
-        <Icon src={selectedCategory.icon} alt={selectedCategory.icon}></Icon>
-        <CategoryTitle>{selectedCategory.type} 떨이상품</CategoryTitle>
+        <Icon src={categoryIcon} alt={categoryType}></Icon>
+        <CategoryTitle>{categoryType} 떨이상품</CategoryTitle>
       </TitleContainer>
       <main>
-        <ItemList onSelect={toggleModal} />
+        <ItemList onSelect={toggleModal} items={items} category={category} />
         {showModal && selectedItem && (
           <ModalPopup
             show={showModal}
@@ -176,6 +190,7 @@ const ItemPage = () => {
             onPickSuccess={handlePickSuccess}
             onPickFailure={handlePickFailure}
             itemData={selectedItem}
+            quantity={quantity}
           >
             <Item>{selectedItem.name}</Item>
             <Text>{selectedItem.store.name}</Text>

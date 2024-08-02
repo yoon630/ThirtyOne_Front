@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 const ListContainer = styled.div`
   width: 345px;
@@ -99,31 +98,9 @@ const SelectBtn = styled.button`
 `;
 
 // 떨이 상품 담는 컴포넌트 -> ItemPage 페이지에 들어감
-const ItemList = ({ onSelect }) => {
-  // 여기 item부분을 나중에 axios로 데이터 가져오는걸로 수정하기!!
-
-  const [items, setItems] = useState([]);
-
-  // 카테고리별 떨이 상품 목록 조회 API 가져오는 부분
-  useEffect(() => {
-    axios
-      .get() // API 주소
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data :", error);
-      });
-  }, []);
-
-  // const item = {
-  //   name: "소고기 400g",
-  //   price: "15000",
-  //   sale_price: "10000",
-  //   store: "ABC 정육",
-  //   amount: 1,
-  // };
-
+// 즉, itemPage.jsx에서 props 받아오고
+// 거기서 받은 api데이터를 이용해 보여주기
+const ItemList = ({ onSelect, items, category }) => {
   return (
     <>
       {items.map((item) => (

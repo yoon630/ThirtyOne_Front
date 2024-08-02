@@ -10,7 +10,7 @@ const GridContainer = styled.div`
   padding: 16px;
   justify-items: center;
   align-items: center;
-  min-height: 330px; /* 최소 높이 설정 */
+  /* min-height: 330px; 최소 높이 설정 */
   box-sizing: border-box;
   overflow: hidden;
 `;
@@ -28,7 +28,7 @@ const Icon = styled.img`
   width: 65px; /* 아이콘 크기 */
   height: 55px; /* 아이콘 크기 */
   margin-bottom: 8px; /* 아이콘과 텍스트 간의 간격 */
-  border: 1px solid #d94844;
+  border: 3px solid #d94844;
   border-radius: 20px;
   padding: 8px;
 `;
@@ -41,40 +41,35 @@ const Label = styled.span`
 
 const categories = [
   {
-    category: "bread ",
-    type: "빵",
-    icon: "assets/bread.svg",
-    link: "/itempage/bread",
+    category: "BAK",
+    type: "빵 & 간식",
+    icon: "/assets/bread.svg",
   },
   {
-    category: "meat",
-    type: "고기",
-    icon: "assets/meat.svg",
-    link: "/itempage/meat",
+    category: "BUT",
+    type: "정육",
+    icon: "/assets/meat.svg",
   },
   {
-    category: "vegetable",
+    category: "VEG",
     type: "채소",
-    icon: "assets/vege.svg",
-    link: "/itempage/vegetable",
+    icon: "/assets/vege.svg",
   },
+
   {
-    category: "snack",
-    type: "간식",
-    icon: "assets/snack.svg",
-    link: "/itempage/snack",
-  },
-  {
-    category: "side-dish",
-    type: "반찬",
-    icon: "assets/sidedish.svg",
-    link: "/itempage/side-dish",
-  },
-  {
-    category: "fruit",
+    category: "FRU",
     type: "과일",
-    icon: "assets/fruit.svg",
-    link: "/itempage/fruit",
+    icon: "/assets/fruit.svg",
+  },
+  {
+    category: "SID",
+    type: "반찬",
+    icon: "/assets/sidedish.svg",
+  },
+  {
+    category: "ETC",
+    type: "기타",
+    icon: "/assets/etc.svg",
   },
 ];
 
@@ -82,9 +77,12 @@ const Category = () => {
   return (
     <GridContainer>
       {categories.map((category) => (
-        <GridItem to={`/itempage/${category.category}`} key={category.type}>
+        <GridItem
+          to={`/itempage/${category.category}?type=${category.type}&icon=${category.icon}`}
+          key={category.category}
+        >
           <Icon src={category.icon} alt={category.type} />
-          <Label>{category.type}류</Label>
+          <Label>{category.type}</Label>
         </GridItem>
       ))}
     </GridContainer>

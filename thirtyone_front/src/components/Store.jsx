@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React from "react";
 
 const Box = styled.div`
-  width: 350px;
+  width: 320px;
   height: 120px;
   padding: 10px;
   box-sizing: border-box;
@@ -36,14 +36,15 @@ const Text = styled.div`
 `;
 
 // Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
-const Store = ({ store, img, call, time }) => {
+const Store = ({ store, photo, tel, open_time, close_time }) => {
   return (
     <Box>
-      <Image src={img}></Image>
+      <Image src={photo}></Image>
       <TitleBox>
         <Text>{store}</Text>
-        <Text>전화번호 : {call}</Text>
-        <Text>영업시간 : {time}</Text>
+        <Text>전화번호 :{tel} </Text>
+        <Text>오픈 시간:{open_time} </Text>
+        <Text>마감 시간:{close_time} </Text>
       </TitleBox>
     </Box>
   );

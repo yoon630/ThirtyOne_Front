@@ -5,7 +5,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 376px;
-  height: 140px;
+  height: 130px;
   padding: 20px;
   box-sizing: border-box;
 `;

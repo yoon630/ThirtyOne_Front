@@ -1,32 +1,36 @@
 // 사용자 Home 페이지
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MainHeader from "../../components/MainHeader";
+import Search from "../../components/Search";
 import Navbar from "../../components/Navbar";
 import Category from "../../components/Category";
 import Store from "../../components/Store";
 import "./UserHome.css";
 
-const mockData = [
+const storeInfo = [
   {
-    id: 1,
-    store: "파리바게트 인하점",
-    img: "img1",
-    call: "032-861-7070",
-    time: "09:00 - 21:00",
+    id: "1",
+    store: "파리바게트 인하대점",
+    photo: "/assets/store.png",
+    tel: "032-732-8188",
+    open_time: "AM 9:00",
+    close_time: "PM 9:00",
   },
   {
-    id: 2,
-    store: "이삭토스트 인하점",
-    img: "img2",
-    call: "032-863-8877",
-    time: "09:00 - 20:00",
+    id: "2",
+    store: "퐁듀베이커리",
+    photo: "/assets/fonduebakery.jpg",
+    tel: "031-688-3543",
+    open_time: "AM 10:00",
+    close_time: "PM 8:00",
   },
   {
-    id: 3,
-    store: "왕가탕후루 인하점",
-    img: "img3",
-    call: "032-861-7343",
-    time: "12:00 - 21:00",
+    id: "3",
+    store: "카페오빵",
+    photo: "/assets/cafeobbang.jpg",
+    tel: "032-771-8989",
+    open_time: "AM 9:00",
+    close_time: "PM 8:00",
   },
 ];
 
@@ -35,17 +39,22 @@ const UserHome = () => {
     <div className="userhome">
       <header>
         <MainHeader />
+        <Search />
       </header>
       <Category />
       <div className="store">지금 떨이 중인 가게</div>
       <main>
         <div className="storecontainer">
-          {mockData.map(({ id, store, img, call, time }) => {
-            console.log(`Rendering store component :${store}`);
-            return (
-              <Store key={id} store={store} img={img} call={call} time={time} />
-            );
-          })}
+          {storeInfo.map((store) => (
+            <Store
+              key={store.id}
+              photo={store.photo}
+              store={store.store}
+              tel={store.tel}
+              open_time={store.open_time}
+              close_time={store.close_time}
+            />
+          ))}
         </div>
       </main>
       <footer>

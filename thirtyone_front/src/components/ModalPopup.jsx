@@ -65,6 +65,7 @@ const ModalPopup = ({
   onPickSuccess,
   onPickFailure,
   itemData,
+  quantity, // quantity를 props로 받아옴
 }) => {
   if (!show) {
     return null;
@@ -72,20 +73,22 @@ const ModalPopup = ({
 
   const handlePick = () => {
     const postData = {
-      buyer: 1, // 실제 데이터로 대체 필요
-      amount: itemData.amount,
-      sale_product: itemData.sale_product,
-      store: itemData.store,
+      buyer: 3, // 실제 데이터로 대체 필요
+      amount: quantity, // itempage에서 받아온 quantity값
+      sale_product: itemData.id, // 넘겨주는 id값
+      store: itemData.store.name,
     };
     axios
-      .post("API_ENDPOINT", postData) // API_ENDPOINT를 실제 API URL로 대체 필요
+      .post("http://13.125.100.193/buyer/pick", postData) // API_ENDPOINT를 실제 API URL로 대체 필요
       .then((response) => {
         console.log("주문 성공:", response.data);
         onPickSuccess(); // 부모 컴포넌트인 ItemPage의 onPickSuccess 함수 호출하여 상태 업데이트
       })
       .catch((error) => {
-        console.error("주문 실패:", error);
-        onPickFailure(); // 주문 실패 시 ItemPage의 onPickFailure 함수 호출
+        if (itemData.amount < quantity) {
+          console.error("주문 실패:", error);
+          onPickFailure(); // 주문 실패 시 ItemPage의 onPickFailure 함수 호출
+        }
       });
   };
 
