@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // dongjae part
 import Layout from "./pages/dongjae/Layout";
-import Location from "./pages/dongjae/Location";
+import Customer_start from "./pages/dongjae/Customer_start";
 import Login from "./pages/dongjae/Login";
 import Subscribe from "./pages/dongjae/Subscribe";
-import CustomerLog from "./pages/dongjae/Customer_log";
+import Customer_log from "./pages/dongjae/Customer_log";
 
 // Yoonseon part
 import UserHome from "./pages/Yoonseon/UserHome";
@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Login />} />
-            <Route path="/location" element={<Location/>}/>
+            <Route path="/customer_start" element={<Customer_start/>}/>
             <Route path="/subscribe" element={<Subscribe/>}/>
 
             <Route path="/userhome" element={<UserHome />} />
@@ -29,7 +29,7 @@ function App() {
             <Route path="/itempage" element={<ItemPage />} />
             <Route path="/itemorder" element={<ItemOrder />} />
 
-            <Route path="/customerlog" element={<CustomerLog />} />
+            <Route path="/customerlog" element={<Customer_log />} />
           
           </Route>
         </Routes>
