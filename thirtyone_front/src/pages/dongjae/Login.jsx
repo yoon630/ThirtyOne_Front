@@ -101,7 +101,7 @@ const Login = () => {
                 <Sellerbutton onClick={() => navigate("/subscribe")}>
                     <ButtonText>판매자로 시작하기</ButtonText>
                 </Sellerbutton>
-                <Customerbutton onClick={() => navigate("/userhome")}>
+                <Customerbutton onClick={() => navigate("/customer_start")}>
                     <ButtonText>구매자로 시작하기</ButtonText>
                 </Customerbutton>
 
