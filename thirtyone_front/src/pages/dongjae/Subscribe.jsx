@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "../../pages/dongjae/Layout";
-import { useNavigate } from "react-router-dom";
 import Back_arrow from "../../components/dongjae/Back_arrow";
 import Header_text from "../../components/dongjae/Header_text";
 
@@ -76,6 +77,7 @@ const ButtnonImg = styled.img`
 `
 const Subscribe = () => {
     const navigate = useNavigate();
+
     return(
         <>
             <Back_arrow></Back_arrow>
@@ -83,7 +85,7 @@ const Subscribe = () => {
             <Text1 src="assets/main_text_red.svg" />
             <Text2 src="assets/subscribe_text.svg"/>
             <WhiteLogo src="assets/logo_red.png"/>
-            <Sub_button onClick={() => navigate("/userhome")}>
+            <Sub_button onClick={() => navigate("/sellerhome")}>
                 <ButtnonImg src="assets/subscribe_button.svg"/>
             </Sub_button>
         </>

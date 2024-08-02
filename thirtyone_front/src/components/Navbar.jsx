@@ -26,6 +26,10 @@ const Icon = styled.img`
   height: 24px;
 `;
 const Navbar = () => {
+  const handleRefresh = () => {
+    window.location.href = "/customerlog";
+  };
+
   return (
     <Container>
       <Atag to="/userhome">
@@ -34,7 +38,7 @@ const Navbar = () => {
       <Atag to="/map">
         <Icon src="/assets/map.svg" />
       </Atag>
-      <Atag to="/">
+      <Atag onClick={handleRefresh} to="/customerlog">
         <Icon src="/assets/list.svg" />
       </Atag>
       <Atag to="/">
