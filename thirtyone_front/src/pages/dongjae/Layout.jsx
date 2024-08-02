@@ -18,11 +18,11 @@ const Layout_wrapper = styled.div`
 `
 
 const Layout = () => {
-    return (
-        <Layout_wrapper>
-            <Outlet/>
-        </Layout_wrapper>
-    )
+  return (
+    <Layout_wrapper>
+      <Outlet />
+    </Layout_wrapper>
+  );
 };
 
 export default Layout;

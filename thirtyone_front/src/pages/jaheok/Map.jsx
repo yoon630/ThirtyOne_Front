@@ -1,34 +1,47 @@
 import { useEffect, useRef, useState } from 'react';
+import styled, { keyframes, css } from 'styled-components';
+import Navbar from '../../components/Navbar';
+import StoreModal from './StoreModal';
+import ProductModal from './ProductModal';
+import axios from "axios"
 
 function Map() {
   const mapRef = useRef(null);
-  const [center, setCenter] = useState({ lat: 37.5666103, lng: 126.9783882 }); // 기본 좌표: 서울 시청
+  const [center, setCenter] = useState({ lat: 37.451436, lng: 126.655978 });
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+
   const markersData = [
-    { lat: 37.4514544, lng: 126.656194, name: '파리바게트 인하점' },
-    // 추가 마커 데이터를 여기에 입력
+    { 
+      lat: 37.4514544, 
+      lng: 126.656194, 
+      name: '파리바게트 인하점',
+      address: '인천 미추홀구 인하로 100',
+      phone: '031-868-8287',
+      hours: '07:30 ~ 23:00',
+      imageUrl: 'public/assets/store.png',
+      menu: [
+        { name: '모카 크림 식빵', store: '파리바게트 인하점', originalPrice: 5000, discountedPrice: 3000, quantity: 3},
+        { name: '딸기우유 생크림빵', store: '파리바게트 인하점', originalPrice: 5000, discountedPrice: 3000, quantity: 3 },
+      ]
+    },
+    // Add more marker data here
   ];
 
-  useEffect(() => {
-    // Geolocation API로 현재 위치 가져오기
-    const getCurrentLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            const { latitude, longitude } = position.coords;
-            setCenter({ lat: latitude, lng: longitude });
-          },
-          error => {
-            console.error("Geolocation 오류:", error);
-          },
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-        );
-      } else {
-        console.error("이 브라우저에서는 Geolocation을 지원하지 않습니다.");
-      }
-    };
+//   useEffect(() => {
+//     const fetchData = async () => {
+//         try {
+//             const response = await axios.get('http://13.125.100.193/store/home');
+//             const data = response.data;
+            
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//         }
+//     };
 
-    getCurrentLocation();
-  }, []);
+//     fetchData();
+// }, []);
 
   useEffect(() => {
     const { naver } = window;
@@ -41,7 +54,7 @@ function Map() {
         mapDataControl: false,
         scaleControl: true,
         tileDuration: 200,
-        zoom: 18,
+        zoom: 19,
         zoomControl: false,
         zoomControlOptions: { position: naver.maps.Position.BOTTOM_RIGHT },
       };
@@ -51,13 +64,19 @@ function Map() {
       mapRef.current.setCenter(new naver.maps.LatLng(center.lat, center.lng));
     }
 
-    // 현재 위치에 마커 추가
+    // Current location marker
     new naver.maps.Marker({
       position: new naver.maps.LatLng(center.lat, center.lng),
       map: mapRef.current,
+      icon: {
+        url: 'assets/currentlocation.svg', // 경로를 현재 위치 이미지로 변경
+        size: new naver.maps.Size(36, 36), // 이미지 크기 조정
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(12, 12) // 중심점을 맞추기 위해 설정
+      }
     });
 
-    // 여러 마커 추가 및 클릭 이벤트 처리
+    // Add markers and click events
     markersData.forEach(markerData => {
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(markerData.lat, markerData.lng),
@@ -65,13 +84,142 @@ function Map() {
       });
 
       naver.maps.Event.addListener(marker, 'click', () => {
-        console.log(`Marker clicked: ${markerData.name}`);
+        setSelectedStore(markerData);
       });
     });
   }, [center]);
 
+  const handleProductPick = () => {
+    setSelectedProduct(null);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000); // Notification visible for 3 seconds
+  };
+
+  const fadeIn = keyframes`
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+
+  const fadeOut = keyframes`
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  `;
+
+  const NotificationContainer = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 999;
+    pointer-events: none; /* Prevent interaction */
+    padding: 20px;
+  `;
+
+  const Notification = styled.div`
+    background-color: #D9534F;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: ${({ show }) => show ? css`${fadeIn} 0.3s ease-out, ${fadeOut} 0.3s ease-out 2.7s` : 'none'};
+  `;
+
+  const Container = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 376px;
+    height: 60px;
+    padding: 20px;
+    box-sizing: border-box;
+  `;
+  const Title = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #d94844;
+    text-align: center;
+  `;
+
+  const Logo = styled.img`
+    width: 25px;
+    height: 24px;
+    margin-left: 8px;
+  `;
+  const Bell = styled.img`
+    width: 24px;
+    height: 24px;
+  `;
+
   return (
-    <div id="map" style={{ width: '100%', height: '100vh' }} />
+    <>
+      <Container>
+        <Title>
+          근처 떨이 가게
+          <Logo src="assets/logo_red.png" />
+        </Title>
+        <Bell src="assets/bell.svg" />
+      </Container>
+      <div id="map" style={{ width: '100%', height: '700px', marginBottom: '70px' }} />
+      {selectedStore && (
+        <div>
+          <StoreModal 
+            store={selectedStore} 
+            onClose={() => {
+              setSelectedStore(null);
+              setSelectedProduct(null);
+            }} 
+            onProductSelect={(product) => setSelectedProduct(product)}
+          />
+          {selectedProduct && (
+            <>
+              <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                zIndex: 998,
+              }} onClick={() => {
+                setSelectedProduct(null);
+              }}></div>
+              <ProductModal 
+                product={selectedProduct} 
+                onClose={() => setSelectedProduct(null)} 
+                onPick={handleProductPick} 
+              />
+            </>
+          )}
+        </div>
+      )}
+      {showNotification && (
+        <NotificationContainer>
+          <Notification show={showNotification}>
+            예약이 완료 되었어요
+          </Notification>
+        </NotificationContainer>
+      )}
+      <Navbar />
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Background = styled.div`
     width: 100%;
@@ -27,8 +28,7 @@ const Header = styled.div`
     left: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 60px;
-    
+    margin-top: 30px;
 `;
 
 const BackIcon = styled.img`
@@ -71,10 +71,9 @@ const ProductItem = styled.div`
     width: 100%;
 `;
 
-const ProductImage = styled.div`
+const ProductImage = styled.img`
     width: 70px;
     height: 70px;
-    background-color: #f0f0f0;
     border-radius: 8px;
     margin-right: 10px;
 `;
@@ -111,41 +110,44 @@ const StockCount = styled.div`
     color: ${props => (props.stock > 0 ? 'red' : 'red')};
 `;
 
-const products = [
-    {
-        name: "모카크림식빵",
-        price: "₩3500",
-        stock: 3,
-        image: "" // 이미지 경로를 여기에 추가
-    },
-    {
-        name: "단팥빵",
-        price: "₩2000",
-        stock: 0,
-        image: "" // 이미지 경로를 여기에 추가
-    },
-    // 추가적인 상품 정보를 여기에 추가
-];
-
 const SellingManage = () => {
+    const [products, setProducts] = useState([]);
+    const [storeName, setStoreName] = useState('');
+
+    useEffect(() => {
+        // 데이터를 가져오는 함수
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://13.125.100.193/store/1/product/list');
+                const data = response.data;
+                setProducts(data.products);
+                setStoreName(data.store_name);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <Background>
             <Header>
-                <BackIcon src="./src/assets/prev.svg" alt="Back" />
+                <BackIcon src="../assets/prev.svg" alt="Back" />
                 떨이 상품 관리
             </Header>
             <Content>
                 <ProductList>
                     {products.map((product, index) => (
                         <ProductItem key={index}>
-                            <ProductImage style={{ backgroundImage: `url(${product.image})` }} />
+                        <ProductImage src={`http://13.125.100.193/media/${product.photo}`} alt="product" />
                             <ProductInfo>
                                 <ProductName>{product.name}</ProductName>
                                 <ProductPrice>{product.price}</ProductPrice>
                             </ProductInfo>
                             <ProductStock>
                                 <StockLabel>재고</StockLabel>
-                                <StockCount stock={product.stock}>{product.stock}</StockCount>
+                                <StockCount stock={product.amount}>{product.amount}</StockCount>
                             </ProductStock>
                         </ProductItem>
                     ))}

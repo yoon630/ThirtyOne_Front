@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Background = styled.div`
     width: 100%;
@@ -22,7 +23,7 @@ const Header = styled.div`
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
-    margin-top: 40px;
+    margin-top: 30px;
 `;
 
 const BackIcon = styled.img`
@@ -31,7 +32,7 @@ const BackIcon = styled.img`
     cursor: pointer;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -100,47 +101,83 @@ const SubmitButton = styled.button`
 `;
 
 const ProductRegistration = () => {
+    const [photo, setPhoto] = useState(null);
+    const [name, setName] = useState('');
+    const [productType, setProductType] = useState('');
+    const [price, setPrice] = useState('');
+    const [salePrice, setSalePrice] = useState('');
+    const [amount, setAmount] = useState('');
+    const [content, setContent] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('photo', photo);
+        formData.append('name', name);
+        formData.append('product_type', productType);
+        formData.append('price', price);
+        formData.append('sale_price', salePrice);
+        formData.append('amount', amount);
+        formData.append('content', content);
+
+        try {
+            const response = await axios.post('http://13.125.100.193/store/create/1/product', formData);
+            console.log('Product registered successfully:', response.data);
+        } catch (error) {
+            console.error('Error registering product:', error);
+        }
+    };
+
+    const handlePhotoChange = (e) => {
+        setPhoto(e.target.files[0]);
+    };
+
     return (
         <Background>
             <Header>
-                <BackIcon src="./src/assets/prev.svg" alt="Back" />
+                <BackIcon src="../assets/prev.svg" alt="Back" />
                 상품 등록
                 <div></div> {/* Placeholder for spacing */}
             </Header>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <FormItem>
                     <Label>상품 사진</Label>
-                    <UploadBox>사진을 첨부해주세요</UploadBox>
+                    <Input type="file" onChange={handlePhotoChange} />
                 </FormItem>
                 <FormItem>
                     <Label>상품명</Label>
-                    <Input type="text" placeholder="상품명을 입력해주세요" />
+                    <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="상품명을 입력해주세요" />
                 </FormItem>
                 <FormItem>
                     <Label>상품 카테고리</Label>
-                    <Select>
+                    <Select value={productType} onChange={(e) => setProductType(e.target.value)}>
                         <option value="">카테고리를 선택해주세요</option>
-                        <option value="category1">카테고리 1</option>
-                        <option value="category2">카테고리 2</option>
+                        <option value="BAK">빵&간식류</option>
+                        <option value="BUT">정육제품</option>
+                        <option value="FRU">과일류</option>
+                        <option value="VEG">채소류</option>
+                        <option value="SID">반찬가게</option>
+                        <option value="ETC">기타</option>
                     </Select>
                 </FormItem>
                 <FormItem>
                     <Label>상품 가격</Label>
-                    <Input type="text" placeholder="상품 가격을 입력해주세요" />
+                    <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="상품 가격을 입력해주세요" />
                 </FormItem>
                 <FormItem>
                     <Label>할인 가격</Label>
-                    <Input type="text" placeholder="할인 가격을 입력해주세요" />
+                    <Input type="number" value={salePrice} onChange={(e) => setSalePrice(e.target.value)} placeholder="할인 가격을 입력해주세요" />
                 </FormItem>
                 <FormItem>
                     <Label>수량</Label>
-                    <Input type="text" placeholder="수량을 입력해주세요" />
+                    <Input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="수량을 입력해주세요" />
                 </FormItem>
                 <FormItem>
                     <Label>상품 설명</Label>
-                    <TextArea placeholder="상품 설명을 입력해주세요" rows="4" />
+                    <TextArea value={content} onChange={(e) => setContent(e.target.value)} placeholder="상품 설명을 입력해주세요" rows="4" />
                 </FormItem>
-                <SubmitButton>등록 완료</SubmitButton>
+                <SubmitButton type="submit">등록 완료</SubmitButton>
             </Form>
         </Background>
     );

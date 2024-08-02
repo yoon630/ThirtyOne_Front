@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,7 +19,6 @@ const Header = styled.div`
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
-    margin-top: 40px;
 `;
 
 const BellIcon = styled.img`
@@ -51,8 +50,8 @@ const EditIcon = styled.img`
 `;
 
 const Image = styled.img`
-    width: 115px;
-    height: 80px;
+    width: 100px;
+    height: 90px;
     border-radius: 8px;
     margin-bottom: 10px;
 `;
@@ -89,19 +88,48 @@ const Icon = styled.img`
 `;
 
 const SellerHome = () => {
+    const [store, setStore] = useState({});
+    const typeMapping = {
+        'BAK': '빵 & 간식류',
+        'BUT': '정육 제품',
+        'FRU': '과일류',
+        'VEG': '채소류',
+        'SID': '반찬 가게',
+        'ETC': '기타',
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://13.125.100.193/store/home/',{
+                    withCredentials: true
+                  });
+                const item = {
+                    ...response.data,
+                    type: typeMapping[response.data.type] || response.data.type,
+                };
+                setStore(item);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <Background>
             <Header>
                 내 가게
-                <BellIcon src="./src/assets/bell.svg" alt="Bell Icon" />
+                <BellIcon src="../assets/bell.svg" alt="Bell Icon" />
             </Header>
             <InfoBox>
-                <EditIcon src="./src/assets/pencil.svg" alt="Edit Icon" />
-                <Image src="./src/assets/아기사자.png" alt="Store" />
-                <InfoItem>가게명: 파리바게트 인하점</InfoItem>
-                <InfoItem>업종: 베이커리, 제빵</InfoItem>
-                <InfoItem>전화번호: 031-868-8287</InfoItem>
-                <InfoItem>영업 시간: 07:30 ~ 23:00</InfoItem>
+                <EditIcon src="../assets/pencil.svg" alt="Edit Icon" />
+                <Image src="../assets/store.png" alt="Store" />
+                <InfoItem>{store.name}</InfoItem>
+                <InfoItem>업종: {store.type}</InfoItem>
+                <InfoItem>전화번호: {store.tel}</InfoItem>
+                <InfoItem>영업 시간: {store.open_time} ~ {store.close_time} </InfoItem>
             </InfoBox>
             <BtnBox>
                 <Btn>
@@ -121,8 +149,8 @@ const SellerHome = () => {
                     판매내역
                 </Btn>
                 <Btn>
-                    <Icon src="./src/assets/user.svg" alt="My Info" />
-                    내 정보
+                    <Icon src="../assets/user.svg" alt="My Info" />
+                    판매 관리
                 </Btn>
             </BtnBox>
         </Background>

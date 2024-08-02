@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Seller_signup_2 = () => {
+const Header_text = () => {
     return(
         <>
         
@@ -9,4 +9,4 @@ const Seller_signup_2 = () => {
     );
 };
 
-export default Seller_signup_2;
+export default Header_text;

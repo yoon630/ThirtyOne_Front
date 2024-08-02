@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Background = styled.div`
     width: 100%;
@@ -27,7 +28,7 @@ const Header = styled.div`
     left: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
+    margin-top: 30px;
 `;
 
 const BackIcon = styled.img`
@@ -106,10 +107,12 @@ const OrderInfo = styled.div`
 const OrderText = styled.div`
     font-size: 14px;
     margin-bottom: 5px;
+    width: 80px;
 `;
 
 const OrderActions = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 10px;
 `;
 
@@ -120,6 +123,7 @@ const ActionButton = styled.button`
     border-radius: 8px;
     padding: 5px 10px;
     font-size: 14px;
+    width: 70px;
     cursor: pointer;
 
     &:focus {
@@ -127,34 +131,95 @@ const ActionButton = styled.button`
     }
 `;
 
-const ordersPending = [
-    { date: '7/18 22:29', location: 'A4', customer: '오*솔', product: '모카크림식빵 1' },
-    { date: '7/18 22:28', location: 'A3', customer: '장*혁', product: '소보로빵 1' },
-    { date: '7/18 22:28', location: 'A2', customer: '김*현', product: '모카크림식빵 1' },
-    { date: '7/18 22:26', location: 'A1', customer: '최*선', product: '모카크림식빵 2' }
-];
+const StatusText = styled.div`
+    font-size: 14px;
+    font-weight: bold;
+    color: green;
+    margin-bottom: 5px;
+`;
 
-const ordersCompleted = [
-    { date: '7/18 22:28', location: 'A2', customer: '김*현', product: '모카크림식빵 1', status: '주문취소' },
-    { date: '7/18 22:26', location: 'A1', customer: '최*선', product: '모카크림식빵 2', status: '픽업완료' }
-];
+const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid Date'; // 날짜가 없을 경우 대비
+
+    const date = new Date(dateString);
+    if (isNaN(date)) return 'Invalid Date'; // 날짜가 유효하지 않을 경우 대비
+
+    return `${date.getMonth() + 1}/${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+};
 
 const SellingHistory = () => {
     const [activeTab, setActiveTab] = useState('pending');
+    const [ordersPending, setOrdersPending] = useState([]);
+    const [ordersCompleted, setOrdersCompleted] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const savedTab = localStorage.getItem('activeTab');
+        if (savedTab) {
+            setActiveTab(savedTab);
+        }
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://13.125.100.193/store/1/purchase/list');
+                const data = response.data;
+                
+                const pendingOrders = data.products.filter(product => product.buy_step === 'RES' || product.buy_step === 'PIC');
+                const completedOrders = data.products.filter(product => product.buy_step === 'REJ' || product.buy_step === 'COM' || product.buy_step === 'AUT');
+                
+                setOrdersPending(pendingOrders);
+                setOrdersCompleted(completedOrders);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        localStorage.setItem('activeTab', tab);
+        window.location.reload();
     };
 
     const handleBackClick = () => {
         navigate(-1);
     };
 
+    const handleActionClick = async (orderId, action) => {
+        try {
+            const response = await axios.patch(`http://13.125.100.193/store/1/order/${orderId}/update-status`, {
+                buy_step: action
+            });
+            if (response.status === 200) {
+                const updatedOrder = response.data;
+                updatedOrder.created_at = formatDate(updatedOrder.created_at);
+                
+                if (action === 'PIC') {
+                    setOrdersPending(prevOrdersPending => prevOrdersPending.map(order =>
+                        order.id === orderId ? { ...order, buy_step: 'PIC' } : order
+                    ));
+                } else if (action === 'COM') {
+                    setOrdersPending(prevOrdersPending => prevOrdersPending.filter(order => order.id !== orderId));
+                    setOrdersCompleted(prevOrdersCompleted => [
+                        ...prevOrdersCompleted,
+                        {
+                            ...updatedOrder,
+                            created_at: formatDate(updatedOrder.created_at) // 날짜 포맷팅 후 추가
+                        }
+                    ]);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating order status:', error);
+        }
+    };
+
     return (
         <Background>
             <Header>
-                <BackIcon src="./src/assets/prev.svg" alt="Back" onClick={handleBackClick} />
+                <BackIcon src="../assets/prev.svg" alt="Back" onClick={handleBackClick} />
                 판매내역
             </Header>
             <TabContainer>
@@ -171,14 +236,23 @@ const SellingHistory = () => {
                         <OrderItem key={index}>
                             <OrderDetails>
                                 <OrderInfo>
-                                    <OrderText>{order.date}</OrderText>
-                                    <OrderText>{order.location}</OrderText>
-                                    <OrderText>{order.customer}</OrderText>
+                                    <OrderText>{formatDate(order.created_at)}</OrderText>
+                                    <OrderText>{order.order_number}</OrderText>
+                                    <OrderText>{order.buyer_name}</OrderText>
                                 </OrderInfo>
-                                <OrderText>{order.product}</OrderText>
+                                <div style={{ flexGrow: 1, marginLeft: '32px' }}>
+                                    {order.buy_step === 'PIC' && <StatusText>픽업대기중</StatusText>}
+                                    <OrderText>{order.sale_product_name} {order.amount}개</OrderText>
+                                </div>
                                 <OrderActions>
-                                    <ActionButton approve>수락하기</ActionButton>
-                                    <ActionButton>거절하기</ActionButton>
+                                    {order.buy_step === 'PIC' ? (
+                                        <ActionButton approve={true} onClick={() => handleActionClick(order.id, 'COM')}>픽업완료</ActionButton>
+                                    ) : (
+                                        <>
+                                            <ActionButton approve={true} onClick={() => handleActionClick(order.id, 'PIC')}>수락하기</ActionButton>
+                                            <ActionButton approve={false} onClick={() => handleActionClick(order.id, 'REJ')}>거절하기</ActionButton>
+                                        </>
+                                    )}
                                 </OrderActions>
                             </OrderDetails>
                         </OrderItem>
@@ -187,12 +261,12 @@ const SellingHistory = () => {
                         <OrderItem key={index}>
                             <OrderDetails>
                                 <OrderInfo>
-                                    <OrderText>{order.date}</OrderText>
-                                    <OrderText>{order.location}</OrderText>
-                                    <OrderText>{order.customer}</OrderText>
+                                    <OrderText>{formatDate(order.created_at)}</OrderText>
+                                    <OrderText>{order.order_number}</OrderText>
+                                    <OrderText>{order.buyer_name}</OrderText>
                                 </OrderInfo>
-                                <OrderText>{order.product}</OrderText>
-                                <OrderText>{order.status}</OrderText>
+                                <OrderText>{order.sale_product_name} {order.amount}개</OrderText>
+                                <OrderText>{order.buy_step === 'REJ' ? '주문거절' : order.buy_step === 'COM' ? '픽업완료' : '주문취소'}</OrderText>
                             </OrderDetails>
                         </OrderItem>
                     ))}
