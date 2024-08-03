@@ -51,7 +51,7 @@ const UserHome = () => {
         <MainHeader />
       </header>
       <Category buyerId={buyerId} />
-      <div className="store">지금 떨이 중인 가게!</div>
+      <div className="store">지금 떨이 중인 가게</div>
       <main>
         <div className="storecontainer">
           {storeInfo.map((store) => (
