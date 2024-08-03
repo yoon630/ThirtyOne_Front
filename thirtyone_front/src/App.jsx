@@ -25,19 +25,14 @@ function App() {
           <Route element= {<Layout/>}>
             <Route path="/" element={<Login/>}/>
             <Route path="/sellerhome" element={<SellerHome/>}/>
-            <Route path="/map" element={<Map/>}/>
+            <Route path="/map/:buyerId" element={<Map/>}/>
             <Route path="/productregi" element={<ProductRegistration/>}/>
             <Route path="/sellingmanage" element={<SellingManage/>}/>
             <Route path="/sellinghistory" element={<SellingHistory/>}/>
             <Route path="/location" element={<Location/>}/>
             <Route path="/subscribe" element={<Subscribe/>}/>
-            <Route path="/userhome" element={<UserHome />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/itempage" element={<ItemPage />} />
-            <Route path="/itemorder" element={<ItemOrder />} />
             <Route path="/dashboard" element={<DashBoard/>}/>
             <Route path="/customer_start" element={<Customer_start />} />
-            <Route path="/subscribe" element={<Subscribe />} />
             <Route path="/userhome/:buyerId" element={<UserHome />} />
             <Route path="/itempage/:category/:buyerId" element={<ItemPage />} />
             <Route path="/customerlog/:buyerId" element={<Customer_log />} />
