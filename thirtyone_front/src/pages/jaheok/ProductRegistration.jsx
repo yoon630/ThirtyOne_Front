@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled , { keyframes, css }from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +24,6 @@ const Header = styled.div`
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
-    margin-top: 30px;
 `;
 
 const BackIcon = styled.img`
@@ -180,7 +179,7 @@ const ProductRegistration = () => {
                     <Label>상품 설명</Label>
                     <TextArea value={content} onChange={(e) => setContent(e.target.value)} placeholder="상품 설명을 입력해주세요" rows="4" />
                 </FormItem>
-                <SubmitButton type="submit">등록 완료</SubmitButton>
+                <SubmitButton type="submit" onClick={() => navigate(-1)}>등록 완료</SubmitButton>
             </Form>
         </Background>
     );

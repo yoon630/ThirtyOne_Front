@@ -109,6 +109,8 @@ const SellerHome = () => {
                     ...response.data,
                     type: typeMapping[response.data.type] || response.data.type,
                 };
+                item.open_time= item.open_time.slice(0, -3);
+                item.close_time = item.close_time.slice(0, -3);
                 setStore(item);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -122,10 +124,8 @@ const SellerHome = () => {
         <Background>
             <Header>
                 내 가게
-                <BellIcon src="../assets/bell.svg" alt="Bell Icon" />
             </Header>
             <InfoBox>
-                <EditIcon src="../assets/pencil.svg" alt="Edit Icon" />
                 <Image src="../assets/store.png" alt="Store" />
                 <InfoItem>{store.name}</InfoItem>
                 <InfoItem>업종: {store.type}</InfoItem>
@@ -150,6 +150,9 @@ const SellerHome = () => {
                     판매 관리
                 </Btn>
             </BtnBox>
+            <div style={{marginLeft:"10px",marginTop:"240px", fontSize:"14px", color:"gray"}}>
+            Copyright CarrotCake in Inha Univ, All Right Reserved.
+            </div>
         </Background>
     );
 };

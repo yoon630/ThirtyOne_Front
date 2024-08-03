@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import StoreModal from './StoreModal';
 import ProductModal from './ProductModal';
 import axios from "axios";
-
+import { useParams } from 'react-router-dom';
 function Map() {
   const mapRef = useRef(null);
   const [center, setCenter] = useState({ lat: 37.451436, lng: 126.655978 });
@@ -12,7 +12,7 @@ function Map() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [markersData, setMarkersData] = useState([]);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,7 +70,7 @@ function Map() {
       position: new naver.maps.LatLng(center.lat, center.lng),
       map: mapRef.current,
       icon: {
-        url: 'assets/currentlocation.svg', // 경로를 현재 위치 이미지로 변경
+        url: '../assets/currentlocation.svg', // 경로를 현재 위치 이미지로 변경
         size: new naver.maps.Size(36, 36), // 이미지 크기 조정
         origin: new naver.maps.Point(0, 0),
         anchor: new naver.maps.Point(12, 12) // 중심점을 맞추기 위해 설정
@@ -175,9 +175,9 @@ function Map() {
       <Container>
         <Title>
           근처 떨이 가게
-          <Logo src="assets/logo_red.png" />
+          <Logo src="../assets/logo_red.png" />
         </Title>
-        <Bell src="assets/bell.svg" />
+        <Bell src="../assets/bell.svg" />
       </Container>
       <div id="map" style={{ width: '100%', height: '700px', marginBottom: '70px' }} />
       {selectedStore && (

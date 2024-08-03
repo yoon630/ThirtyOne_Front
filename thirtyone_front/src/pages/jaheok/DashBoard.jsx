@@ -1,27 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as BarTooltip, Legend as BarLegend } from 'recharts';
+import axios from 'axios';
 
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
-
-const barData = [
-  { name: 'Page A', 판매된떨이: 4000, 등록된떨이: 2400, amt: 2400 },
-  { name: 'Page B', 판매된떨이: 3000, 등록된떨이: 1398, amt: 2210 },
-  { name: 'Page C', 판매된떨이: 2000, 등록된떨이: 9800, amt: 2290 },
-  { name: 'Page D', 판매된떨이: 2780, 등록된떨이: 3908, amt: 2000 },
-  { name: 'Page E', 판매된떨이: 1890, 등록된떨이: 4800, amt: 2181 },
-  { name: 'Page F', 판매된떨이: 2390, 등록된떨이: 3800, amt: 2500 },
-  { name: 'Page G', 판매된떨이: 3490, 등록된떨이: 4300, amt: 2100 },
-];
-
-const COLORS = ['#ea2f2f', '#ff8181', '#ff4848', '#fb9a9a'];
+const COLORS = ['#fdb5b5', '#ffd787', '#6ceb8c', '#c79afe','#9afeef'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -35,13 +19,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     </text>
   );
 };
-
-const data1 = [
-  { name: 'DayNum', value: 32 },
-  { name: 'DayIncome', value: 56000 },
-  { name: 'MonthNum', value: 800 },
-  { name: 'MonthIncome', value: 120000 },
-];
 
 const Background = styled.div`
   width: 100%;
@@ -141,27 +118,92 @@ const HeaderTitle = styled.div`
 
 const ComboBox = styled.select`
   font-size: 16px;
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
 
 const DashBoard = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState('option1');
+  const [selectedOption, setSelectedOption] = useState('');
+  const [summaryData, setSummaryData] = useState({});
+  const [rank, setRank] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(0);
+  const [trendData, setTrendData] = useState([]);
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
+  // 콤보박스 선택 변경 처리 함수
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    setSelectedProduct(event.target.value);
   };
 
-  const getCardData = (name) => {
-    const item = data1.find((d) => d.name === name);
-    return item ? item.value : 'N/A';
-  };
+  useEffect(() => {
+    const fetchSumData = async () => {
+        try {
+            const response = await axios.get('http://13.125.100.193/dashboard/summary/1');
+            const data = response.data;
+            setSummaryData(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const fetchRankData = async () => {
+      try {
+          const response = await axios.get('http://13.125.100.193/dashboard/rank/1');
+          const data = response.data;
+          const transformedData = data.map(item => ({
+            name: item.selled_product_name,
+            value: item.selled_amount
+          }));
+          setRank(transformedData);
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://13.125.100.193/buyer/store/1/list');
+        const data = response.data;
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchSumData();
+    fetchRankData();
+    fetchProducts();
+  }, []);
+
+  // selectedProduct 값이 변경될 때 데이터를 가져오는 useEffect
+  useEffect(() => {
+    const fetchTrendData = async () => {
+      if (selectedProduct) {
+        try {
+          const response = await axios.get(`http://13.125.100.193/dashboard/trend/1/${selectedProduct}`);
+          const data = response.data;
+          const transformedData = data.map(item => ({
+            name: item.date,
+            판매된떨이: item.selled_amount,
+            등록된떨이: item.remove_total,
+            amt: item.amount
+          }));
+          setTrendData(transformedData);
+        } catch (error) {
+          console.error('Error fetching trend data:', error);
+        }
+      }
+    };
+
+    fetchTrendData();
+  }, [selectedProduct]);
 
   return (
     <>
@@ -173,19 +215,19 @@ const DashBoard = () => {
         <CardContainer>
           <Card bgColor="#e57373">
             오늘 판매한 떨이
-            <div>{getCardData('DayNum')}개</div>
+            <div style={{marginTop:"10px"}}>{summaryData.today_sales_count}개</div>
           </Card>
           <Card bgColor="#424242">
             오늘 떨이 판매 수입
-            <div>{getCardData('DayIncome').toLocaleString()} 원</div>
+            <div style={{marginTop:"10px"}}>{summaryData.today_sales_income} 원</div>
           </Card>
           <Card bgColor="#e57373">
             한달 간 판매한 떨이
-            <div>{getCardData('MonthNum')}개</div>
+            <div style={{marginTop:"10px"}}>{summaryData.month_sales_count}개</div>
           </Card>
           <Card bgColor="#424242">
             한달 간 떨이 판매 수익
-            <div>{getCardData('MonthIncome').toLocaleString()} 원</div>
+            <div style={{marginTop:"10px"}}>{summaryData.month_sales_income} 원</div>
           </Card>
         </CardContainer>
         <PieBox>
@@ -193,7 +235,7 @@ const DashBoard = () => {
           <ResponsiveContainer width="90%" height="90%">
             <PieChart width={400} height={400}>
               <Pie
-                data={pieData}
+                data={rank}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -202,7 +244,7 @@ const DashBoard = () => {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {pieData.map((entry, index) => (
+                {rank.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
@@ -215,16 +257,19 @@ const DashBoard = () => {
           <ChartTitleContainer>
             <ChartTitle>주당 품목별 떨이 판매 추이</ChartTitle>
             <ComboBox value={selectedOption} onChange={handleOptionChange}>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
+              <option value="">선택</option>
+              {products.map(product => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
+                </option>
+              ))}
             </ComboBox>
           </ChartTitleContainer>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
               height={300}
-              data={barData}
+              data={trendData}
               margin={{
                 top: 20,
                 right: 30,
@@ -238,7 +283,7 @@ const DashBoard = () => {
               <BarTooltip />
               <BarLegend verticalAlign="top" height={36} />
               <Bar dataKey="판매된떨이" stackId="a" fill="#d74545" />
-              <Bar dataKey="등록된떨이" stackId="a" fill="#11447d" />
+              <Bar dataKey="등록된떨이" stackId="a" fill="#939090" />
             </BarChart>
           </ResponsiveContainer>
         </BarBox>

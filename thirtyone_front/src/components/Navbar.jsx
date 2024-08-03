@@ -29,16 +29,16 @@ const Navbar = () => {
   return (
     <Container>
       <Atag to="/userhome">
-        <Icon src="assets/home.svg" />
+        <Icon src="../assets/home.svg" />
       </Atag>
       <Atag to="/map">
-        <Icon src="assets/map.svg" />
+        <Icon src="../assets/map.svg" />
       </Atag>
       <Atag to="/">
-        <Icon src="assets/list.svg" />
+        <Icon src="../assets/list.svg" />
       </Atag>
       <Atag to="/">
-        <Icon src="assets/user.svg" />
+        <Icon src="../assets/user.svg" />
       </Atag>
     </Container>
   );
