@@ -48,11 +48,11 @@ const Bell = styled.img`
 
 // 이전 화살표 버튼 없는 그냥 메인 홈 헤더
 const PrevHeader = () => {
-  const { id } = useParams(); // 구매자 id 받아오는 거
+  const { buyerId } = useParams(); // 구매자 id 받아오는 거
 
   return (
     <Container>
-      <PrevBtn to={`/userhome/${id}`}>
+      <PrevBtn to={`/userhome/${buyerId}`}>
         <PrevIcon src="/assets/prev.svg" />
       </PrevBtn>
       <Title>

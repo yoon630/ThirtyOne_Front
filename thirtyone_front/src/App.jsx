@@ -14,7 +14,6 @@ import Customer_log from "./pages/dongjae/Customer_log";
 
 // Yoonseon part
 import UserHome from "./pages/Yoonseon/UserHome";
-import Search from "./pages/Yoonseon/Search";
 import ItemPage from "./pages/Yoonseon/ItemPage";
 
 function App() {
@@ -25,7 +24,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Login />} />
             <Route path="/sellerhome" element={<SellerHome />} />
-            <Route path="/map" element={<Map />} />
+            <Route path="/map/:buyerId" element={<Map />} />
             <Route path="/productregi" element={<ProductRegistration />} />
             <Route path="/sellingmanage" element={<SellingManage />} />
             <Route path="/sellinghistory" element={<SellingHistory />} />
