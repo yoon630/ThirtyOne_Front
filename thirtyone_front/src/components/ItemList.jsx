@@ -100,7 +100,7 @@ const SelectBtn = styled.button`
 // 떨이 상품 담는 컴포넌트 -> ItemPage 페이지에 들어감
 // 즉, itemPage.jsx에서 props 받아오고
 // 거기서 받은 api데이터를 이용해 보여주기
-const ItemList = ({ onSelect, items, category }) => {
+const ItemList = ({ onSelect, items }) => {
   return (
     <>
       {items.map((item) => (

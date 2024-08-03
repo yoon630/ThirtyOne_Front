@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -48,9 +48,11 @@ const Bell = styled.img`
 
 // 이전 화살표 버튼 없는 그냥 메인 홈 헤더
 const PrevHeader = () => {
+  const { id } = useParams(); // 구매자 id 받아오는 거
+
   return (
     <Container>
-      <PrevBtn to="/userhome">
+      <PrevBtn to={`/userhome/${id}`}>
         <PrevIcon src="/assets/prev.svg" />
       </PrevBtn>
       <Title>

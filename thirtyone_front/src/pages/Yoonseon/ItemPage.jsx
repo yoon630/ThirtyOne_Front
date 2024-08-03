@@ -71,8 +71,8 @@ const Button = styled.button`
 
 const ItemPage = () => {
   // 카테고리 선택했을 때 그 카테고리 넘기는 역할
-  const { category } = useParams();
-  console.log(category);
+  const { category, buyerId } = useParams();
+  console.log("카테고리: ", category, "구매자 ID: ", buyerId);
   const location = useLocation(); // Category 컴포넌트에서 URL로 아이콘이랑 카테고리 받아오는 역할
 
   // URL 쿼리 파라미터에서 카테고리 타입과 아이콘을 추출
@@ -122,7 +122,7 @@ const ItemPage = () => {
   const toggleModal = (item) => {
     if (item) {
       axios
-        .get(`http://13.125.100.193/buyer/product/${item.id}`)
+        .get(`http://13.125.100.193/buyer/product/${item.id}`) //여기 id는 상품의 id
         .then((response) => {
           const itemData = response.data; // 수량 받아올 변수
           setSelectedItem(response.data); // 선택된 아이템에 맞는 데이터 가져오기
@@ -184,7 +184,7 @@ const ItemPage = () => {
         <CategoryTitle>{categoryType} 떨이상품</CategoryTitle>
       </TitleContainer>
       <main>
-        <ItemList onSelect={toggleModal} items={items} category={category} />
+        <ItemList onSelect={toggleModal} items={items} />
         {showModal && selectedItem && (
           <ModalPopup
             show={showModal}
@@ -193,6 +193,7 @@ const ItemPage = () => {
             onPickFailure={handlePickFailure}
             itemData={selectedItem}
             quantity={quantity}
+            buyerId={buyerId}
           >
             <Item>{selectedItem.name}</Item>
             <Text>{selectedItem.store.name}</Text>

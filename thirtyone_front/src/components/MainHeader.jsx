@@ -34,9 +34,9 @@ const MainHeader = () => {
     <Container>
       <Title>
         떠리원
-        <Logo src="assets/logo_red.png" />
+        <Logo src="/assets/logo_red.png" />
       </Title>
-      <Bell src="assets/bell.svg" />
+      <Bell src="/assets/bell.svg" />
     </Container>
   );
 };

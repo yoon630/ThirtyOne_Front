@@ -73,12 +73,12 @@ const categories = [
   },
 ];
 
-const Category = () => {
+const Category = ({ buyerId }) => {
   return (
     <GridContainer>
       {categories.map((category) => (
         <GridItem
-          to={`/itempage/${category.category}?type=${category.type}&icon=${category.icon}`}
+          to={`/itempage/${category.category}/${buyerId}?type=${category.type}&icon=${category.icon}`}
           key={category.category}
         >
           <Icon src={category.icon} alt={category.type} />

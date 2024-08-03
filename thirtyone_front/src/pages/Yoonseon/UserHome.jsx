@@ -1,11 +1,11 @@
 // 사용자 Home 페이지
 import React, { useState, useEffect } from "react";
 import MainHeader from "../../components/MainHeader";
-
 import Navbar from "../../components/Navbar";
 import Category from "../../components/Category";
 import Store from "../../components/Store";
 import "./UserHome.css";
+import { useParams } from "react-router-dom";
 
 const storeInfo = [
   {
@@ -43,12 +43,14 @@ const storeInfo = [
 ];
 
 const UserHome = () => {
+  const { buyerId } = useParams();
+
   return (
     <div className="userhome">
       <header>
         <MainHeader />
       </header>
-      <Category />
+      <Category buyerId={buyerId} />
       <div className="store">지금 떨이 중인 가게!</div>
       <main>
         <div className="storecontainer">

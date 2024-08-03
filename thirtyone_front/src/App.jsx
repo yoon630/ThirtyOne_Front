@@ -20,11 +20,11 @@ function App() {
             <Route path="/customer_start" element={<Customer_start />} />
             <Route path="/subscribe" element={<Subscribe />} />
 
-            <Route path="/userhome" element={<UserHome />} />
+            <Route path="/userhome/:buyerId" element={<UserHome />} />
 
-            <Route path="/itempage/:category" element={<ItemPage />} />
+            <Route path="/itempage/:category/:buyerId" element={<ItemPage />} />
 
-            <Route path="/customerlog" element={<Customer_log />} />
+            <Route path="/customerlog/:buyerId" element={<Customer_log />} />
           </Route>
         </Routes>
       </BrowserRouter>

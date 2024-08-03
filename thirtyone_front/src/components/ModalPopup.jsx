@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Modaloverlay = styled.div`
   position: fixed;
@@ -66,17 +67,11 @@ const ModalPopup = ({
   onPickFailure,
   itemData,
   quantity, // quantity를 props로 받아옴
+  buyerId, // 구매자 id
 }) => {
-  const [buyerId, setBuyerId] = useState(null);
-
-  useEffect(() => {
-    const storedBuyerId = localStorage.getItem("buyerId"); // LocalStorage에서 buyerId 불러오기
-    setBuyerId(storedBuyerId);
-  }, []);
-
   const handlePick = () => {
     const postData = {
-      buyer: buyerId, // 실제 데이터로 대체 필요 -> 이게 있어야 주문 내역 확인할떄 필요
+      buyer: buyerId, // 구매자 id
       amount: quantity, // itempage에서 받아온 quantity값
       sale_product: itemData.id, // 넘겨주는 id값
       store: itemData.store.name,
