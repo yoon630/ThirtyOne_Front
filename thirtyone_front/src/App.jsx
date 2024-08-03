@@ -24,10 +24,7 @@ function App() {
             <Route path="/subscribe" element={<Subscribe/>}/>
 
             <Route path="/userhome" element={<UserHome />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/map" element={<Map />} />
             <Route path="/itempage" element={<ItemPage />} />
-            <Route path="/itemorder" element={<ItemOrder />} />
 
             <Route path="/customerlog" element={<Customer_log />} />
           
