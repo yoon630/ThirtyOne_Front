@@ -145,6 +145,7 @@ const Log = ({
   productName,
   productPhoto,
   acceptAt,
+  createdAt,
   amount,
   buyStep,
   onDelete,
@@ -155,8 +156,11 @@ const Log = ({
   };
 
   // acceptAt 시간보다 30분 늦은 시간을 계산
-  const pickupTime = new Date(acceptAt);
-  pickupTime.setMinutes(pickupTime.getMinutes() + 30);
+  const pickupTime = acceptAt ? new Date(acceptAt) : null;
+  if (pickupTime) {
+    pickupTime.setMinutes(pickupTime.getMinutes() + 30);
+  }
+
 
   // buyStep에 따라 표시할 문구 설정
   let pickupStatus;
@@ -199,11 +203,13 @@ const Log = ({
       <Text1>{storeName}</Text1>
       <Text2>{productName}</Text2>
       <Text3>
-        주문시간 ㅣ {new Date(acceptAt).toLocaleString(undefined, dateOptions)}
+        주문시간 ㅣ {new Date(createdAt).toLocaleString(undefined, dateOptions)}
       </Text3>
       <Text4>주문수량 ㅣ {amount}개</Text4>
       <Text5>
-        픽업 가능 시간 ㅣ {pickupTime.toLocaleString(undefined, dateOptions)}
+      {pickupTime
+          ? `픽업 가능 시간 ㅣ ${pickupTime.toLocaleString(undefined, dateOptions)}`
+          : "픽업 가능 시간 ㅣ 예약 수락 후 표시됩니다!"}
       </Text5>
       <Text6>주문번호 ㅣ {orderNumber}</Text6>
       <Pickup>{pickupStatus}</Pickup>
