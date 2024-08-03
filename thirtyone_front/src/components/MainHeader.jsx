@@ -5,7 +5,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 376px;
-  height: 140px;
+  height: 130px;
   padding: 20px;
   box-sizing: border-box;
 `;
@@ -28,16 +28,17 @@ const Bell = styled.img`
   height: 24px;
 `;
 
-const Header = () => {
+// 이전 화살표 버튼 없는 그냥 메인 홈 헤더
+const MainHeader = () => {
   return (
     <Container>
       <Title>
         떠리원
-        <Logo src="assets/logo_red.png" />
+        <Logo src="/assets/logo_red.png" />
       </Title>
-      <Bell src="assets/bell.svg" />
+      <Bell src="/assets/bell.svg" />
     </Container>
   );
 };
 
-export default Header;
+export default MainHeader;

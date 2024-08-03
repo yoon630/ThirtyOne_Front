@@ -10,7 +10,7 @@ const GridContainer = styled.div`
   padding: 16px;
   justify-items: center;
   align-items: center;
-  min-height: 330px; /* 최소 높이 설정 */
+  /* min-height: 330px; 최소 높이 설정 */
   box-sizing: border-box;
   overflow: hidden;
 `;
@@ -28,7 +28,7 @@ const Icon = styled.img`
   width: 65px; /* 아이콘 크기 */
   height: 55px; /* 아이콘 크기 */
   margin-bottom: 8px; /* 아이콘과 텍스트 간의 간격 */
-  border: 1px solid #d94844;
+  border: 3px solid #d94844;
   border-radius: 20px;
   padding: 8px;
 `;
@@ -40,21 +40,49 @@ const Label = styled.span`
 `;
 
 const categories = [
-  { name: "빵", icon: "assets/bread.svg", link: "/bread" },
-  { name: "고기", icon: "assets/meat.svg", link: "/meat" },
-  { name: "채소", icon: "assets/vege.svg", link: "/vegetable" },
-  { name: "간식", icon: "assets/snack.svg", link: "/snack" },
-  { name: "반찬", icon: "assets/sidedish.svg", link: "/side-dish" },
-  { name: "과일", icon: "assets/fruit.svg", link: "/fruit" },
+  {
+    category: "BAK",
+    type: "빵 & 간식",
+    icon: "/assets/bread.svg",
+  },
+  {
+    category: "BUT",
+    type: "정육",
+    icon: "/assets/meat.svg",
+  },
+  {
+    category: "VEG",
+    type: "채소",
+    icon: "/assets/vege.svg",
+  },
+
+  {
+    category: "FRU",
+    type: "과일",
+    icon: "/assets/fruit.svg",
+  },
+  {
+    category: "SID",
+    type: "반찬",
+    icon: "/assets/sidedish.svg",
+  },
+  {
+    category: "ETC",
+    type: "기타",
+    icon: "/assets/etc.svg",
+  },
 ];
 
-const Category = () => {
+const Category = ({ buyerId }) => {
   return (
     <GridContainer>
       {categories.map((category) => (
-        <GridItem to={category.link} key={category.name}>
-          <Icon src={category.icon} alt={category.name} />
-          <Label>{category.name}류</Label>
+        <GridItem
+          to={`/itempage/${category.category}/${buyerId}?type=${category.type}&icon=${category.icon}`}
+          key={category.category}
+        >
+          <Icon src={category.icon} alt={category.type} />
+          <Label>{category.type}</Label>
         </GridItem>
       ))}
     </GridContainer>

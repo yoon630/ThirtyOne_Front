@@ -17,14 +17,14 @@ const Text1 = styled.img`
   position: absolute;
   width: 319px;
   height: 142px;
-  left: calc(50% - 319px/2 - 0.5px);
+  left: calc(50% - 319px / 2 - 0.5px);
   top: 210px;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 64px;
   line-height: 87px;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const Text2 = styled.div`
@@ -33,7 +33,7 @@ const Text2 = styled.div`
   height: 22px;
   left: 21px;
   top: 581px;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -53,8 +53,8 @@ const NameInput = styled.input`
   height: 52px;
   left: 21px;
   top: 611px;
-  background: #FFFFFF;
-  border: 1px solid #B3B3B3;
+  background: #ffffff;
+  border: 1px solid #b3b3b3;
   border-radius: 10px;
 `;
 
@@ -68,17 +68,18 @@ const StartButton = styled.button`
   position: absolute;
   width: 336px;
   height: 56px;
-  left: calc(50% - 336px/2);
+  left: calc(50% - 336px / 2);
   top: 708px;
   border: none;
-  background: ${(props) => (props.disabled ? 'rgba(217, 72, 68, 0.44)' : '#D94844')};
+  background: ${(props) =>
+    props.disabled ? "rgba(217, 72, 68, 0.44)" : "#D94844"};
   border-radius: 15px;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 27px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
 `;
 
@@ -93,14 +94,17 @@ const Customer_start = () => {
 
   const handle_submit = async () => {
     try {
-      const response = await axios.post('http://13.125.100.193/buyer/create', { name });
-          //   localStorage.setItem("temp_tokken",res.data.temp_access_token)
-        const id = response.data.id;
-        localStorage.setItem('buyerId', id);
-      navigate('/userhome');
-      console.log('Sign up complete, buyer ID:', id);
+      const response = await axios.post("http://13.125.100.193/buyer/create", {
+        name,
+      });
+      //   localStorage.setItem("temp_tokken",res.data.temp_access_token)
+      const id = response.data.id;
+      //localStorage.setItem("buyerId", id);
+      //navigate("/userhome");
+      navigate(`/userhome/${id}`); // useParams로 userHome에 구매자 id 넘기기
+      console.log("Sign up complete, buyer ID:", id);
     } catch (error) {
-      console.error('데이터 전송 중 오류가 발생했습니다:', error);
+      console.error("데이터 전송 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -110,9 +114,9 @@ const Customer_start = () => {
       <Text1 src="assets/main_text_red.svg" />
       <WhiteLogo src="assets/logo_red.png" />
       <Text2>이름</Text2>
-      <NameInput 
-        type="text" 
-        placeholder="이름을 입력해 주세요." 
+      <NameInput
+        type="text"
+        placeholder="이름을 입력해 주세요."
         onChange={(e) => setName(e.target.value)}
       />
       <StartButton onClick={handle_submit} disabled={is_next_disabled}>
