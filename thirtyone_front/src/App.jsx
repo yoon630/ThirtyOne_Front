@@ -4,16 +4,18 @@ import Map from './pages/jaheok/Map';
 import ProductRegistration from './pages/jaheok/ProductRegistration';
 import SellingManage from './pages/jaheok/SellingManage';
 import SellingHistory from './pages/jaheok/SellingHistory';
+// dongjae part
 import Layout from "./pages/dongjae/Layout";
-import Location from "./pages/dongjae/Location";
+import Customer_start from "./pages/dongjae/Customer_start";
 import Login from "./pages/dongjae/Login";
 import Subscribe from "./pages/dongjae/Subscribe";
 import DashBoard from "./pages/jaheok/DashBoard"
+import Customer_log from "./pages/dongjae/Customer_log";
+
 // Yoonseon part
 import UserHome from "./pages/Yoonseon/UserHome";
 import Search from "./pages/Yoonseon/Search";
 import ItemPage from "./pages/Yoonseon/ItemPage";
-import ItemOrder from "./pages/Yoonseon/ItemOrder";
 
 function App() {
   return (
@@ -34,6 +36,11 @@ function App() {
             <Route path="/itempage" element={<ItemPage />} />
             <Route path="/itemorder" element={<ItemOrder />} />
             <Route path="/dashboard" element={<DashBoard/>}/>
+            <Route path="/customer_start" element={<Customer_start />} />
+            <Route path="/subscribe" element={<Subscribe />} />
+            <Route path="/userhome/:buyerId" element={<UserHome />} />
+            <Route path="/itempage/:category/:buyerId" element={<ItemPage />} />
+            <Route path="/customerlog/:buyerId" element={<Customer_log />} />
           </Route>
         </Routes>
       </BrowserRouter>

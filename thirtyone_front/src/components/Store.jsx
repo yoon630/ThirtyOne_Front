@@ -1,20 +1,23 @@
-// Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
 import styled from "styled-components";
 import React from "react";
 
 const Box = styled.div`
-  width: 100%;
+  width: 320px;
   height: 120px;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 3px 3px 3px #e0e0e0;
   border-radius: 20px;
   border: 3px solid #f8f8f8;
+  margin: auto;
 `;
 const Image = styled.img`
-  width: 96px;
+  width: 100px;
   height: 80px;
+  margin: 5px;
 `;
 
 const TitleBox = styled.div`
@@ -32,14 +35,16 @@ const Text = styled.div`
   font-weight: bold;
 `;
 
-const Store = () => {
+// Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
+const Store = ({ store, photo, tel, open_time, close_time }) => {
   return (
     <Box>
-      <Image src="assets/store.png"></Image>
+      <Image src={photo}></Image>
       <TitleBox>
-        <Text>파리바게트 인하대점</Text>
-        <Text>전화번호 : </Text>
-        <Text>영업시간 : </Text>
+        <Text>{store}</Text>
+        <Text>전화번호 :{tel} </Text>
+        <Text>오픈 시간:{open_time} </Text>
+        <Text>마감 시간:{close_time} </Text>
       </TitleBox>
     </Box>
   );
