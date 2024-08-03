@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SellerHome from './pages/jaheok/SellerHome';
-import Map from './pages/jaheok/Map';
-import ProductRegistration from './pages/jaheok/ProductRegistration';
-import SellingManage from './pages/jaheok/SellingManage';
-import SellingHistory from './pages/jaheok/SellingHistory';
+import SellerHome from "./pages/jaheok/SellerHome";
+import Map from "./pages/jaheok/Map";
+import ProductRegistration from "./pages/jaheok/ProductRegistration";
+import SellingManage from "./pages/jaheok/SellingManage";
+import SellingHistory from "./pages/jaheok/SellingHistory";
 // dongjae part
 import Layout from "./pages/dongjae/Layout";
 import Customer_start from "./pages/dongjae/Customer_start";
 import Login from "./pages/dongjae/Login";
 import Subscribe from "./pages/dongjae/Subscribe";
-import DashBoard from "./pages/jaheok/DashBoard"
+import DashBoard from "./pages/jaheok/DashBoard";
 import Customer_log from "./pages/dongjae/Customer_log";
 
 // Yoonseon part
@@ -22,20 +22,15 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element= {<Layout/>}>
-            <Route path="/" element={<Login/>}/>
-            <Route path="/sellerhome" element={<SellerHome/>}/>
-            <Route path="/map" element={<Map/>}/>
-            <Route path="/productregi" element={<ProductRegistration/>}/>
-            <Route path="/sellingmanage" element={<SellingManage/>}/>
-            <Route path="/sellinghistory" element={<SellingHistory/>}/>
-            <Route path="/location" element={<Location/>}/>
-            <Route path="/subscribe" element={<Subscribe/>}/>
-            <Route path="/userhome" element={<UserHome />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/itempage" element={<ItemPage />} />
-            <Route path="/itemorder" element={<ItemOrder />} />
-            <Route path="/dashboard" element={<DashBoard/>}/>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/sellerhome" element={<SellerHome />} />
+            <Route path="/map" element={<Map />} />
+            <Route path="/productregi" element={<ProductRegistration />} />
+            <Route path="/sellingmanage" element={<SellingManage />} />
+            <Route path="/sellinghistory" element={<SellingHistory />} />
+
+            <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/customer_start" element={<Customer_start />} />
             <Route path="/subscribe" element={<Subscribe />} />
             <Route path="/userhome/:buyerId" element={<UserHome />} />
@@ -48,4 +43,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
