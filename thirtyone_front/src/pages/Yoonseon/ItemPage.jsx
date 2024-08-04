@@ -94,10 +94,11 @@ const ItemPage = () => {
   const [quantity, setQuantity] = useState(0); // 수량 관리하는 useState
   const [maxQuantity, setMaxQuantity] = useState(1); // 주문가능 최대수량
 
-  // 떨이PICK 후에 예약 완료/실패 상태관리하는 useState
+  // 떨이PICK 후에 예약 완료,실패 상태관리하는 useState
   const [isConfirmed, setConfirmed] = useState(false); // 떨이픽 누르면 "예약되었습니다" 관리하는 거
   const [isFailed, setFailed] = useState(false);
 
+  const [treeMessage, setTreeMessage] = useState(false); // 예약 완료 후에 '소나무 몇그루" 관리하는 useState
   // -------------------API 연결 부분 -------------------------//
   // 카테고리에 해당하는 아이템 리스트를 가져오는 부분
   useEffect(() => {
@@ -161,10 +162,15 @@ const ItemPage = () => {
   const handlePickSuccess = () => {
     setShowModal(false); // 주문 팝업 안보이게하고
     setConfirmed(true); // 떨이픽 true로 바꾸기 (예약완료)
-    console.log("예약완료");
+    console.log("예약완료"); // console로 예약 확인되는지 보기
+
     setTimeout(() => {
-      setConfirmed(false);
-    }, 3000); // "예약완료" 3초뒤에 사라지게 함
+      setConfirmed(false); // 떨이픽 다시 false로
+      setTreeMessage(true); // 소나무 메세지 뜨게하는 거 true
+      setTimeout(() => {
+        setTreeMessage(false); // 소나무 메시지 없애기
+      }, 3000);
+    }, 2000);
   };
 
   // 떨이 예약 실패
@@ -211,6 +217,12 @@ const ItemPage = () => {
           </ModalPopup>
         )}
         {isConfirmed && <ConfirmationPopup message={"예약이 완료되었어요"} />}
+        {treeMessage && (
+          <ConfirmationPopup
+            message={"소나무 60그루를 심었어요!"}
+            showTree={true}
+          />
+        )}
         {isFailed && <ConfirmationPopup message={"예약을 실패했어요"} />}
       </main>
       <footer>
