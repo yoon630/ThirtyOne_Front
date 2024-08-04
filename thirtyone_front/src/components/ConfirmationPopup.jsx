@@ -14,6 +14,7 @@ const ConfirmationPopupContainer = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     font-size: 16px;
     z-index: 100; /* Ensure it's above other content */
+    width:160px
   }
 `;
 

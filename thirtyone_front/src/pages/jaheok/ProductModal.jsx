@@ -39,7 +39,7 @@ const ModalContainer = styled.div`
 `;
 
 
-function ProductModal({ product, onClose, onPick }) {
+function ProductModal({ product, onClose, onPick,buyer }) {
   if (!product) return null;
 
   const [quantity, setQuantity] = useState(1);
@@ -51,7 +51,7 @@ function ProductModal({ product, onClose, onPick }) {
     console.log(`떨이 PICK clicked for product: ${product.name},${product.id} quantity: ${quantity}`);
     try {
       const response = await axios.post('http://13.125.100.193/buyer/pick', {
-        buyer:1,
+        buyer:{buyer},
         sale_product: product.id,
         amount: quantity,
         store:product.store_id,

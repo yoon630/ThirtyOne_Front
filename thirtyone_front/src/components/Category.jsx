@@ -30,7 +30,7 @@ const Icon = styled.img`
   height: 55px; /* 아이콘 크기 */
   margin-bottom: 8px; /* 아이콘과 텍스트 간의 간격 */
   border: 1px solid #d0d0d0;
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 8px;
   box-shadow: 3px 3px 3px #e0e0e0;
   background-color: white;

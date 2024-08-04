@@ -8,14 +8,20 @@ import "./UserHome.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components"; // 스타일드 컴포넌트 임포트
+import ConfirmationPopup from "../../components/ConfirmationPopup";
 
 const Item = styled.h2`
-  color: #d94844;
+  color: #3b3b3b;
 `;
 const Text = styled.p`
-  color: #d94844;
+  color: #535353;
   font-weight: bold;
 `;
+
+const SaleText= styled.p`
+    color: #d94844;
+    font-weight: bold;
+`
 const Price = styled.p`
   color: #656565;
   font-weight: bold;
@@ -47,6 +53,8 @@ const UserHome = () => {
   const [quantity, setQuantity] = useState(0); // 수량 관리하는 useState
   const [maxQuantity, setMaxQuantity] = useState(1); // 주문가능 최대수량
   const categories = ['BAK', 'BUT', 'VEG', 'FRU', 'SID', 'ETC'];
+  const [isConfirmed, setConfirmed] = useState(false); // 떨이픽 누르면 "예약되었습니다" 관리하는 거
+  const [isFailed, setFailed] = useState(false);
 
   useEffect(() => {
     // 데이터를 가져오는 함수
@@ -113,14 +121,20 @@ const UserHome = () => {
   // 떨이픽 관리하는 함수 2개
   const handlePickSuccess = () => {
     setShowModal(false); // 주문 팝업 안보이게하고
+    setConfirmed(true); // 떨이픽 true로 바꾸기 (예약완료)
     console.log("예약완료");
-    // 성공 메시지 등을 표시하는 로직 추가 가능
+    setTimeout(() => {
+      setConfirmed(false);
+    }, 3000); // "예약완료" 3초뒤에 사라지게 함
   };
 
+  // 떨이 예약 실패
   const handlePickFailure = () => {
     setShowModal(false); // 주문 팝업 안보이게하고
-    console.log("예약실패");
-    // 실패 메시지 등을 표시하는 로직 추가 가능
+    setFailed(true); // 떨이픽 실패 true로 바꾸기 (예약실패)
+    setTimeout(() => {
+      setFailed(false);
+    }, 3000);
   };
 
   return (
@@ -160,7 +174,7 @@ const UserHome = () => {
           <Item>{selectedItem.name}</Item>
           <Text>{selectedItem.store.name}</Text>
           <Price>정가 : {selectedItem.price}원</Price>
-          <Text>떨이 할인가 : {selectedItem.sale_price}원</Text>
+          <SaleText>떨이 할인가 : {selectedItem.sale_price}원</SaleText>
           <QuantityContainer>
             <Text>수량 : </Text>
             <Button onClick={decrementQuantity}>-</Button>
@@ -170,6 +184,8 @@ const UserHome = () => {
           </QuantityContainer>
         </ModalPopup>
       )}
+        {isConfirmed && <ConfirmationPopup message={"예약이 완료되었어요"} />}
+        {isFailed && <ConfirmationPopup message={"예약을 실패했어요"} />}
       <footer>
         <Navbar />
       </footer>

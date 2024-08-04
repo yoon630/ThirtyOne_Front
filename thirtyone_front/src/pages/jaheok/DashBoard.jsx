@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as BarTooltip, Legend as BarLegend } from 'recharts';
 import axios from 'axios';
 
-const COLORS = ['#fdb5b5', '#ffd787', '#6ceb8c', '#c79afe','#9afeef'];
+const COLORS = ['#fdb5b5', '#ffd787', '#9ac7fe', '#c79afe','#9dda77'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -201,10 +201,9 @@ const DashBoard = () => {
         }
       }
     };
-
     fetchTrendData();
   }, [selectedProduct]);
-
+  console.log(products);
   return (
     <>
       <Background>
@@ -288,6 +287,8 @@ const DashBoard = () => {
             </BarChart>
           </ResponsiveContainer>
         </BarBox>
+
+
       </Background>
     </> 
   );
