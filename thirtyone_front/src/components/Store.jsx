@@ -14,6 +14,7 @@ const Box = styled.div`
   border: 3px solid #f8f8f8;
   margin: auto;
   background-color: white;
+  cursor: pointer; // 클릭 가능하게 커서 추가
 `;
 const Image = styled.img`
   width: 100px;
@@ -32,20 +33,49 @@ const Text = styled.div`
   width: 150px;
   height: 25px;
   font-size: 12px;
-  color: #d94844;
+  color: #525252;
+  font-weight: bold;
+`;
+const Title_Text = styled.div`
+  width: 150px;
+  height: 25px;
+  font-size: 16px;
+  color: #525252;
   font-weight: bold;
 `;
 
+// API에서 price에 해당하는 부분 (세일 안한 정가)
+const OriginalPrice = styled.span`
+  font-size: 14px;
+  font-weight: 700;
+  color: #b3b3b3;
+`;
+// API에서 sale_price에 해당하는 부분 (세일한 가격)
+const SalePrice = styled.span`
+  font-size: 14px;
+  font-weight: 700;
+  color: #d94844;
+  padding: 3px;
+`;
+
+const Arrow = styled.img`
+  width: 15px;
+  height: 15px;
+  padding: 0px;
+`;
+
 // Home에서 현재 떨이 중인 가게 보여주는 컴포넌트
-const Store = ({ store, photo, tel, open_time, close_time }) => {
+const Store = ({ name, photo, amount, price, sale_price, store, onClick }) => {
   return (
-    <Box>
+    <Box onClick={onClick}>
       <Image src={photo}></Image>
       <TitleBox>
+        <Title_Text>{name}</Title_Text>
+        <OriginalPrice>{price}원</OriginalPrice>
+        <Arrow src="/assets/arrow.svg" />
+        <SalePrice>{sale_price}원</SalePrice>
+        <Text>남은 갯수 : {amount} </Text>
         <Text>{store}</Text>
-        <Text>전화번호 :{tel} </Text>
-        <Text>오픈 시간:{open_time} </Text>
-        <Text>마감 시간:{close_time} </Text>
       </TitleBox>
     </Box>
   );

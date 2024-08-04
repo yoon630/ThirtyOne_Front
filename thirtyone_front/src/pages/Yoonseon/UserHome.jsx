@@ -1,49 +1,127 @@
-// 사용자 Home 페이지
 import React, { useState, useEffect } from "react";
 import MainHeader from "../../components/MainHeader";
 import Navbar from "../../components/Navbar";
 import Category from "../../components/Category";
 import Store from "../../components/Store";
+import ModalPopup from "../../components/ModalPopup"; // 모달 팝업 컴포넌트 임포트
 import "./UserHome.css";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import styled from "styled-components"; // 스타일드 컴포넌트 임포트
 
-const storeInfo = [
-  {
-    id: "1",
-    store: "파리바게트 인하대점",
-    photo: "/assets/store.png",
-    tel: "032-732-8188",
-    open_time: "AM 9:00",
-    close_time: "PM 9:00",
-  },
-  {
-    id: "2",
-    store: "퐁듀베이커리",
-    photo: "/assets/fonduebakery.jpg",
-    tel: " 031-688-3543",
-    open_time: " AM 10:00",
-    close_time: " PM 8:00",
-  },
-  {
-    id: "3",
-    store: "카페오빵",
-    photo: "/assets/cafeobbang.jpg",
-    tel: " 032-771-8989",
-    open_time: " AM 9:00",
-    close_time: " PM 8:00",
-  },
-  {
-    id: "4",
-    store: "다솔 빵집",
-    photo: "/assets/cafeobbang.jpg",
-    tel: " 032-734-8989",
-    open_time: " AM 9:00",
-    close_time: " PM 8:00",
-  },
-];
+const Item = styled.h2`
+  color: #d94844;
+`;
+const Text = styled.p`
+  color: #d94844;
+  font-weight: bold;
+`;
+const Price = styled.p`
+  color: #656565;
+  font-weight: bold;
+`;
+const QuantityContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
+const Button = styled.button`
+  background-color: #d94844;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #a73230;
+  }
+`;
 
 const UserHome = () => {
   const { buyerId } = useParams();
+  const [storeInfo, setStoreInfo] = useState([]);
+  const [showModal, setShowModal] = useState(false); // 모달 상태 관리
+  const [selectedItem, setSelectedItem] = useState(null); // 선택된 아이템 상태 관리
+  const [quantity, setQuantity] = useState(0); // 수량 관리하는 useState
+  const [maxQuantity, setMaxQuantity] = useState(1); // 주문가능 최대수량
+  const categories = ['BAK', 'BUT', 'VEG', 'FRU', 'SID', 'ETC'];
+
+  useEffect(() => {
+    // 데이터를 가져오는 함수
+    const fetchData = async () => {
+        try {
+            const requests = categories.map(category =>
+                axios.get(`http://13.125.100.193/buyer/category/${category}/list`)
+            );
+
+            const responses = await Promise.all(requests);
+            const allData = responses.flatMap(response => response.data);
+
+            const formattedData = allData.map(item => ({
+                id: item.id,
+                photo: item.photo,
+                name: item.name,
+                amount: item.amount,
+                price: item.price,
+                sale_price: item.sale_price,
+                store: item.store.name
+            }));
+
+            setStoreInfo(formattedData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchData();
+}, []);
+
+  // 모달 팝업 창 토글하는 함수
+  const toggleModal = (item) => {
+    if (item) {
+      axios
+        .get(`http://13.125.100.193/buyer/product/${item.id}`) // 여기 id는 상품의 id
+        .then((response) => {
+          const itemData = response.data; // 수량 받아올 변수
+          setSelectedItem(response.data); // 선택된 아이템에 맞는 데이터 가져오기
+          setShowModal(true); // Modal창 보이는 부분 true로 상태 변경
+          setQuantity(0); // 수량은 API의 amount값으로 설정
+          setMaxQuantity(itemData.amount); // 주문가능한 최대 수량 (상품 등록되어있는 최대 수량)
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } else {
+      // 선택된 아이템 없으면
+      setShowModal(false); // 모달 안보이게 함
+      setSelectedItem(null); // 선택된 아이템 없음
+    }
+  };
+
+  // 수량 조절하는 핸들러 함수
+  const incrementQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  // 떨이픽 관리하는 함수 2개
+  const handlePickSuccess = () => {
+    setShowModal(false); // 주문 팝업 안보이게하고
+    console.log("예약완료");
+    // 성공 메시지 등을 표시하는 로직 추가 가능
+  };
+
+  const handlePickFailure = () => {
+    setShowModal(false); // 주문 팝업 안보이게하고
+    console.log("예약실패");
+    // 실패 메시지 등을 표시하는 로직 추가 가능
+  };
 
   return (
     <div className="userhome">
@@ -55,18 +133,43 @@ const UserHome = () => {
       <div className="store">실시간 떨이 상품</div>
       <main>
         <div className="storecontainer">
-          {storeInfo.map((store) => (
-            <Store
-              key={store.id}
-              photo={store.photo}
-              store={store.store}
-              tel={store.tel}
-              open_time={store.open_time}
-              close_time={store.close_time}
-            />
-          ))}
+        {storeInfo.map((store) => (
+                <Store
+                  key={store.id}
+                  photo={store.photo}
+                  name={store.name}
+                  store={store.store}
+                  amount={store.amount}
+                  price={store.price}
+                  sale_price={store.sale_price}
+                  onClick={() => toggleModal(store)} // Store 항목 클릭 시 모달 토글
+                />
+            ))}
         </div>
       </main>
+      {showModal && selectedItem && (
+        <ModalPopup
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onPickSuccess={handlePickSuccess}
+          onPickFailure={handlePickFailure}
+          itemData={selectedItem}
+          quantity={quantity}
+          buyerId={buyerId}
+        >
+          <Item>{selectedItem.name}</Item>
+          <Text>{selectedItem.store.name}</Text>
+          <Price>정가 : {selectedItem.price}원</Price>
+          <Text>떨이 할인가 : {selectedItem.sale_price}원</Text>
+          <QuantityContainer>
+            <Text>수량 : </Text>
+            <Button onClick={decrementQuantity}>-</Button>
+            <Text>{quantity}</Text>
+            <Button onClick={incrementQuantity}>+</Button>
+            <Text>주문가능 최대 수량: {maxQuantity} </Text>
+          </QuantityContainer>
+        </ModalPopup>
+      )}
       <footer>
         <Navbar />
       </footer>
