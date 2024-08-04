@@ -32,7 +32,6 @@ function App() {
             <Route path="/userhome" element={<UserHome />} />
             <Route path="/dashboard" element={<DashBoard/>}/>
             <Route path="/customer_start" element={<Customer_start />} />
-            <Route path="/subscribe" element={<Subscribe />} />
             <Route path="/userhome/:buyerId" element={<UserHome />} />
             <Route path="/itempage/:category/:buyerId" element={<ItemPage />} />
             <Route path="/customerlog/:buyerId" element={<Customer_log />} />
