@@ -22,19 +22,21 @@ const TitleContainer = styled.div`
 `;
 const CategoryTitle = styled.div`
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 600;
   margin: 8px;
   padding: 8px;
-  color: #d94844;
+  color: #323232;
 `;
 
 const Icon = styled.img`
   width: 50px;
   height: 50px;
   margin: 5px;
-  border: 3px solid #d94844;
+  border: 1px solid #d0d0d0;
   border-radius: 20px;
   padding: 8px;
+  box-shadow: 3px 3px 3px #e0e0e0;
+  background-color: white;
 `;
 
 const Item = styled.h2`
@@ -208,8 +210,8 @@ const ItemPage = () => {
             </QuantityContainer>
           </ModalPopup>
         )}
-        {isConfirmed && <ConfirmationPopup message={"예약 완료"} />}
-        {isFailed && <ConfirmationPopup message={"예약 실패"} />}
+        {isConfirmed && <ConfirmationPopup message={"예약이 완료되었어요"} />}
+        {isFailed && <ConfirmationPopup message={"예약을 실패했어요"} />}
       </main>
       <footer>
         <Navbar />

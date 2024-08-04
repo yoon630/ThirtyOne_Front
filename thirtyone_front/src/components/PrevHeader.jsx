@@ -5,8 +5,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   width: 376px;
-  height: 140px;
-  padding: 20px;
+  height: 60px;
+  padding: 10px;
   box-sizing: border-box;
 `;
 const Title = styled.div`
@@ -23,7 +23,7 @@ const PrevBtn = styled(Link)`
   display: flex;
   width: 25px;
   height: 24px;
-  margin-left: 8px;
+  margin-left: 6px;
   border: none;
   background: none;
   text-decoration: none;
@@ -59,7 +59,6 @@ const PrevHeader = () => {
         떠리원
         <Logo src="/assets/logo_red.png" />
       </Title>
-      <Bell src="/assets/bell.svg" />
     </Container>
   );
 };

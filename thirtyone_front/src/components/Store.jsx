@@ -13,6 +13,7 @@ const Box = styled.div`
   border-radius: 20px;
   border: 3px solid #f8f8f8;
   margin: auto;
+  background-color: white;
 `;
 const Image = styled.img`
   width: 100px;
