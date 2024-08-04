@@ -5,6 +5,7 @@ import StoreModal from './StoreModal';
 import ProductModal from './ProductModal';
 import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
+
 function Map() {
   const mapRef = useRef(null);
   const [center, setCenter] = useState({ lat: 37.451436, lng: 126.655978 });
@@ -12,7 +13,8 @@ function Map() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [markersData, setMarkersData] = useState([]);
-  
+  const { buyerId } = useParams(); // useParams 훅으로 buyerId 가져오기
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,12 +33,13 @@ function Map() {
             originalPrice: product.price,
             discountedPrice: product.sale_price,
             quantity: product.amount,
-            photo:product.photo,
-            store_id:store.id,
-            id:product.id,
+            photo: product.photo,
+            store_id: store.id,
+            id: product.id,
           }))
         }));
         setMarkersData(data);
+        console.log(buyerId);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -217,7 +220,7 @@ function Map() {
                 product={selectedProduct} 
                 onClose={() => setSelectedProduct(null)} 
                 onPick={handleProductPick} 
-                buyer={buyerId}
+                buyerId={buyerId} // buyerId 전달
               />
             </>
           )}
