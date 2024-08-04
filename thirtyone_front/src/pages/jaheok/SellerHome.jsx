@@ -153,6 +153,10 @@ const SellerHome = () => {
     const navigate = useNavigate();
     const [summaryData, setSummaryData] = useState({});
     const [sellerRank, setSellerRank] = useState('');
+    const [nextRank,setNextRank] = useState('');
+    const [differIncome,setDiffer] = useState(0)
+    const [RankColor,setRankColor] = useState('');
+    const [NextRankColor,setNextRankColor] = useState('');
     const typeMapping = {
         'BAK': '빵 & 간식류',
         'BUT': '정육 제품',
@@ -194,16 +198,32 @@ const SellerHome = () => {
     }, []);
 
     useEffect(() => {
-        if (summaryData.month_sales_income > 1200000) {
+        if (summaryData.month_sales_income > 2000000) {
             setSellerRank('다이아');
         } else if (summaryData.month_sales_income > 950000) {
             setSellerRank('플레티넘');
+            setNextRank('다이아');
+            setDiffer(1200000-summaryData.month_sales_income);
+            setRankColor('56f0d1');
+            setNextRankColor('3a86f0');
         } else if (summaryData.month_sales_income > 650000) {
             setSellerRank('골드');
+            setNextRank('플레티넘');
+            setDiffer(950000-summaryData.month_sales_income);
+            setRankColor('f5da54');
+            setNextRankColor('56f0d1');
         } else if (summaryData.month_sales_income > 350000) {
             setSellerRank('실버');
+            setNextRank('골드');
+            setDiffer(650000-summaryData.month_sales_income);
+            setRankColor('4f4f4f');
+            setNextRankColor('f5da54');
         } else {
             setSellerRank('브론즈');
+            setNextRank('실버');
+            setDiffer(350000-summaryData.month_sales_income);
+            setRankColor('765a22');
+            setNextRankColor('4f4f4f');
         }
     }, [summaryData]);
 
@@ -262,7 +282,8 @@ const SellerHome = () => {
             <RankBox>
                 <RankTitle>이번 8월 떨이 판매 금액</RankTitle>
                 <RankAmount>{summaryData.month_sales_income}원</RankAmount>
-                <RankGrade>{sellerRank} 등급이에요</RankGrade>
+                <RankGrade><span style={{color:`#${RankColor}`}}>{sellerRank}</span> 등급이에요</RankGrade>
+                <RankGrade><span style={{color:`#${NextRankColor}`}}>{nextRank}</span> 등급 까지 {differIncome}원 남았어요!</RankGrade>
             </RankBox>
 
             <div style={{ marginLeft: "10px", marginTop: "20px", fontSize: "14px", color: "gray" }}>

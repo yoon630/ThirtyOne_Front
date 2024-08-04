@@ -123,6 +123,42 @@ const ComboBox = styled.select`
   border-radius: 4px;
 `;
 
+const CommentBox = styled.div`
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 50px;
+  width: 80%;
+  padding: 20px;
+  background-color: #fcfcfc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const CommentText = styled.p`
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+  line-height: 1.4;
+`;
+
+const CommentText_1 = styled.p`
+  font-size: 15px;
+  color: #333;
+  margin: 10px 0;
+  line-height: 1.4;
+`;
+
+const Highlight = styled.span`
+  font-weight: bold;
+  color: #d94844;
+`;
+
+const CommentTitle = styled.h3`
+  font-size: 22px;
+  font-weight: bold;
+  color: #d94844;
+  margin-bottom: 20px;
+`;
+
 const DashBoard = () => {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('');
@@ -131,7 +167,7 @@ const DashBoard = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(0);
   const [trendData, setTrendData] = useState([]);
-
+  const [comment, setComment] = useState({});
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -158,12 +194,22 @@ const DashBoard = () => {
           const response = await axios.get('http://13.125.100.193/dashboard/rank/1');
           const data = response.data;
           const transformedData = data.map(item => ({
-            name: item.selled_product_name,
-            value: item.selled_amount
+            name: item.name,
+            value: item.total_selled
           }));
           setRank(transformedData);
       } catch (error) {
           console.error('Error fetching data:', error);
+      }
+    };
+
+    const fetchComment = async () => {
+      try {
+        const response = await axios.get('http://13.125.100.193/dashboard/advice/1');
+        const data = response.data;
+        setComment(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
       }
     };
 
@@ -180,6 +226,7 @@ const DashBoard = () => {
     fetchSumData();
     fetchRankData();
     fetchProducts();
+    fetchComment();
   }, []);
 
   // selectedProduct 값이 변경될 때 데이터를 가져오는 useEffect
@@ -203,7 +250,7 @@ const DashBoard = () => {
     };
     fetchTrendData();
   }, [selectedProduct]);
-  console.log(products);
+  
   return (
     <>
       <Background>
@@ -287,10 +334,19 @@ const DashBoard = () => {
             </BarChart>
           </ResponsiveContainer>
         </BarBox>
-
-
+        {comment.most_selled && comment.least_selled && comment.most_based_post && comment.least_based_post && (
+          <CommentBox>
+            <CommentTitle>판매 분석</CommentTitle>
+            <CommentText>가장 많이 팔린 상품은 <Highlight>{comment.most_selled.name}</Highlight></CommentText>
+            <CommentText>가장 적게 팔린 상품은 <Highlight>{comment.least_selled.name}</Highlight></CommentText>
+            <CommentText>등록 대비 가장 많이 팔린 상품은 <Highlight>{comment.most_based_post.name}</Highlight></CommentText>
+            <CommentText>등록 대비 가장 적게 팔린 상품은 <Highlight>{comment.least_based_post.name}</Highlight></CommentText>
+            <div style={{marginTop:"20px"}}></div>
+            <CommentText_1><Highlight>{comment.least_based_post.name}</Highlight> 상품의 주문량을 줄일 필요가 있어요!</CommentText_1>
+          </CommentBox>
+        )}
       </Background>
-    </> 
+    </>
   );
 };
 
