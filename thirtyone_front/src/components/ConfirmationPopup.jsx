@@ -21,6 +21,7 @@ const ConfirmationPopupContainer = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
+    width:160px
   }
 `;
 
