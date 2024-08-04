@@ -13,6 +13,7 @@ const GridContainer = styled.div`
   /* min-height: 330px; 최소 높이 설정 */
   box-sizing: border-box;
   overflow: hidden;
+  background-color: #ffffff;
 `;
 
 const GridItem = styled(Link)`
@@ -28,15 +29,17 @@ const Icon = styled.img`
   width: 65px; /* 아이콘 크기 */
   height: 55px; /* 아이콘 크기 */
   margin-bottom: 8px; /* 아이콘과 텍스트 간의 간격 */
-  border: 3px solid #d94844;
+  border: 1px solid #d0d0d0;
   border-radius: 20px;
   padding: 8px;
+  box-shadow: 3px 3px 3px #e0e0e0;
+  background-color: white;
 `;
 
 const Label = styled.span`
   font-size: 15px; /* 텍스트 크기 */
-  font-weight: bold;
-  color: #d94844; /* 텍스트 색상 */
+  font-weight: 700;
+  color: #525252; /* 텍스트 색상 */
 `;
 
 const categories = [

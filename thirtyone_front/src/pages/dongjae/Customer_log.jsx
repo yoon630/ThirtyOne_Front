@@ -93,6 +93,7 @@ const Customer_log = () => {
               productName={log.sale_product.name}
               productPhoto={log.sale_product.photo}
               acceptAt={log.accept_at}
+              createdAt={log.created_at}
               amount={log.amount}
               buyStep={log.buy_step}
               onDelete={() => handleDelete(log.id)} // log.id를 인자로 전달

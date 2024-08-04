@@ -68,6 +68,7 @@ const ProductItem = styled.div`
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const ProductImage = styled.img`
