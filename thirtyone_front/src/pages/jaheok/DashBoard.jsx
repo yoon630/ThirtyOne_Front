@@ -232,6 +232,7 @@ const DashBoard = () => {
         </CardContainer>
         <PieBox>
           <ChartTitle>상품별 판매 순위</ChartTitle>
+          <div style={{marginBottom:"10px"}}></div>
           <ResponsiveContainer width="90%" height="90%">
             <PieChart width={400} height={400}>
               <Pie
@@ -255,9 +256,9 @@ const DashBoard = () => {
         </PieBox>
         <BarBox>
           <ChartTitleContainer>
-            <ChartTitle>주당 품목별 떨이 판매 추이</ChartTitle>
+            <ChartTitle>주간 품목별 떨이 판매 추이</ChartTitle>
             <ComboBox value={selectedOption} onChange={handleOptionChange}>
-              <option value="">선택</option>
+              <option value="">상품 선택</option>
               {products.map(product => (
                 <option key={product.id} value={product.id}>
                   {product.name}

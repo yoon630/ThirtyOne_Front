@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import React from "react";
 
+const ScrollableContainer = styled.div`
+  height: 500px; /* Adjust this value based on your layout */
+  overflow-y: auto;
+`;
+
 const ListContainer = styled.div`
   width: 345px;
-  height: 120px;
   padding: 8px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -29,7 +33,7 @@ const TextBox = styled.div`
 const ItemTitle = styled.div`
   font-size: 16px;
   font-weight: 800;
-  color: #d94844;
+  color: #444444;
   padding: 5px;
   margin-left: 8px;
 `;
@@ -69,7 +73,7 @@ const Arrow = styled.img`
 const StoreName = styled.div`
   font-size: 12px;
   font-weight: 400;
-  color: #d94844;
+  color: #444444;
   padding: 3px;
   box-sizing: border-box;
   align-items: center;
@@ -102,7 +106,7 @@ const SelectBtn = styled.button`
 // 거기서 받은 api데이터를 이용해 보여주기
 const ItemList = ({ onSelect, items }) => {
   return (
-    <>
+    <ScrollableContainer>
       {items.map((item) => (
         <ListContainer key={item.id}>
           <ItemImage src={item.photo} />
@@ -120,7 +124,7 @@ const ItemList = ({ onSelect, items }) => {
           </TextBox>
         </ListContainer>
       ))}
-    </>
+    </ScrollableContainer>
   );
 };
 

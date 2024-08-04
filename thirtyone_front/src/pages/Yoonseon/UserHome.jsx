@@ -50,8 +50,9 @@ const UserHome = () => {
       <header>
         <MainHeader />
       </header>
+      <div className="store" style={{fontSize:"24px", fontWeight:"700"}}>떨이 찾기<div style={{fontSize:"18px", color:"#525252",fontWeight:"500",marginTop:"5px" }}>원하는 떨이 종류를 찾아보세요!</div> </div>
       <Category buyerId={buyerId} />
-      <div className="store">지금 떨이 중인 가게!</div>
+      <div className="store">실시간 떨이 상품</div>
       <main>
         <div className="storecontainer">
           {storeInfo.map((store) => (

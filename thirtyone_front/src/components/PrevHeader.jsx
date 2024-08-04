@@ -5,8 +5,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   width: 376px;
-  height: 140px;
-  padding: 20px;
+  height: 60px;
+  padding: 10px;
   box-sizing: border-box;
 `;
 const Title = styled.div`
@@ -23,7 +23,7 @@ const PrevBtn = styled(Link)`
   display: flex;
   width: 25px;
   height: 24px;
-  margin-left: 8px;
+  margin-left: 6px;
   border: none;
   background: none;
   text-decoration: none;
@@ -48,18 +48,17 @@ const Bell = styled.img`
 
 // 이전 화살표 버튼 없는 그냥 메인 홈 헤더
 const PrevHeader = () => {
-  const { id } = useParams(); // 구매자 id 받아오는 거
+  const { buyerId } = useParams(); // 구매자 id 받아오는 거
 
   return (
     <Container>
-      <PrevBtn to={`/userhome/${id}`}>
+      <PrevBtn to={`/userhome/${buyerId}`}>
         <PrevIcon src="/assets/prev.svg" />
       </PrevBtn>
       <Title>
         떠리원
         <Logo src="/assets/logo_red.png" />
       </Title>
-      <Bell src="/assets/bell.svg" />
     </Container>
   );
 };

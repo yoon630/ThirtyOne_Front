@@ -100,6 +100,8 @@ const OrderItem = styled.div`
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const OrderDetails = styled.div`
@@ -117,6 +119,7 @@ const OrderInfo = styled.div`
 const OrderText = styled.div`
     font-size: 14px;
     margin-bottom: 5px;
+    color:#555555;
 `;
 
 const OrderActions = styled.div`
@@ -258,7 +261,7 @@ const SellingHistory = () => {
                                     <OrderText>{order.order_number}</OrderText>
                                     <OrderText>{order.buyer_name}</OrderText>
                                 </OrderInfo>
-                                <div style={{ flexGrow: 1, marginLeft: '32px' }}>
+                                <div style={{ flexGrow: 1, marginLeft: '48px' }}>
                                     {order.buy_step === 'PIC' && <StatusText>픽업대기중</StatusText>}
                                     <OrderText>{order.sale_product_name} {order.amount}개</OrderText>
                                 </div>

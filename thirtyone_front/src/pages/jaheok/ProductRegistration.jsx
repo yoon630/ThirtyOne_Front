@@ -21,8 +21,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
     margin-bottom: 20px;
 `;
 
@@ -30,6 +29,17 @@ const BackIcon = styled.img`
     width: 24px;
     height: 24px;
     cursor: pointer;
+    position: absolute;
+    left: 20px;
+`;
+const Title = styled.div`
+    width: 100%;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    text-align: left;
+    color: #303030;
 `;
 
 const Form = styled.form`
@@ -46,8 +56,8 @@ const FormItem = styled.div`
 `;
 
 const Label = styled.label`
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    color: #3d3d3d;
 `;
 
 const Input = styled.input`
@@ -75,17 +85,6 @@ const Select = styled.select`
     box-sizing: border-box;
 `;
 
-const UploadBox = styled.div`
-    width: 100%;
-    height: 150px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #e0e0e0;
-    cursor: pointer;
-`;
 
 const SubmitButton = styled.button`
     width: 100%;
@@ -95,9 +94,32 @@ const SubmitButton = styled.button`
     border: none;
     border-radius: 8px;
     font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 376px;
+  height: 60px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const HeaderTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d94844;
+  text-align: center;
 `;
 
 const ProductRegistration = () => {
@@ -134,14 +156,16 @@ const ProductRegistration = () => {
     const handlePhotoChange = (e) => {
         setPhoto(e.target.files[0]);
     };
-
+    const handleBackClick = () => {
+        navigate(-1);
+      };
     return (
         <Background>
-            <Header>
-                <BackIcon src="../assets/prev.svg" alt="Back" onClick={() => navigate(-1)}/>
-                상품 등록
-                <div></div> {/* Placeholder for spacing */}
-            </Header>
+         <HeaderContainer>
+          <BackIcon src="../assets/prev.svg" alt="Back" onClick={handleBackClick} />
+          <HeaderTitle>상품 등록</HeaderTitle>
+        </HeaderContainer>
+            <Title>떨이 시작하기</Title>
             <Form onSubmit={handleSubmit}>
                 <FormItem>
                     <Label>상품 사진</Label>
@@ -152,7 +176,7 @@ const ProductRegistration = () => {
                     <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="상품명을 입력해주세요" />
                 </FormItem>
                 <FormItem>
-                    <Label>상품 카테고리</Label>
+                    <Label>상품 종류</Label>
                     <Select value={productType} onChange={(e) => setProductType(e.target.value)}>
                         <option value="">카테고리를 선택해주세요</option>
                         <option value="BAK">빵&간식류</option>
@@ -179,7 +203,7 @@ const ProductRegistration = () => {
                     <Label>상품 설명</Label>
                     <TextArea value={content} onChange={(e) => setContent(e.target.value)} placeholder="상품 설명을 입력해주세요" rows="4" />
                 </FormItem>
-                <SubmitButton type="submit" onClick={() => navigate(-1)}>등록 완료</SubmitButton>
+                <SubmitButton type="submit">등록 완료</SubmitButton>
             </Form>
         </Background>
     );

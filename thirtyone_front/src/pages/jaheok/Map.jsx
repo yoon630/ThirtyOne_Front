@@ -4,7 +4,6 @@ import Navbar from '../../components/Navbar';
 import StoreModal from './StoreModal';
 import ProductModal from './ProductModal';
 import axios from "axios";
-import { useParams } from 'react-router-dom';
 function Map() {
   const mapRef = useRef(null);
   const [center, setCenter] = useState({ lat: 37.451436, lng: 126.655978 });
@@ -145,7 +144,7 @@ function Map() {
   const Container = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 376px;
     height: 60px;
     padding: 20px;
@@ -169,6 +168,11 @@ function Map() {
     width: 24px;
     height: 24px;
   `;
+  const CheckImage = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;
 
   return (
     <>
@@ -177,7 +181,6 @@ function Map() {
           근처 떨이 가게
           <Logo src="../assets/logo_red.png" />
         </Title>
-        <Bell src="../assets/bell.svg" />
       </Container>
       <div id="map" style={{ width: '100%', height: '700px', marginBottom: '70px' }} />
       {selectedStore && (
@@ -215,6 +218,7 @@ function Map() {
       {showNotification && (
         <NotificationContainer>
           <Notification show={showNotification}>
+          <CheckImage src="/assets/check.svg" />
             예약이 완료 되었어요
           </Notification>
         </NotificationContainer>
