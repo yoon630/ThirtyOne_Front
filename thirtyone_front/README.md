@@ -1,8 +1,18 @@
-# React + Vite
+# 화면 구성
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 윤선 담당
 
-Currently, two official plugins are available:
+## UserHome.jsx (/page/Yoonseon/UserHome.jsx)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 이 부분이 구매자 홈 페이지
+
+- Category 컴포넌트
+- Store 컴포넌트
+
+## Itempage.jsx (/page/Yoonseon/Itempage.jsx)
+
+### 떨이 상품 상세조회 페이지
+
+- ItemList 컴포넌트
+- ModalPopup 컴포넌트
+- ConfirmationPopup 컴포넌트
