@@ -203,7 +203,7 @@ const ProductRegistration = () => {
                     <Label>상품 설명</Label>
                     <TextArea value={content} onChange={(e) => setContent(e.target.value)} placeholder="상품 설명을 입력해주세요" rows="4" />
                 </FormItem>
-                <SubmitButton type="submit">등록 완료</SubmitButton>
+                <SubmitButton type="submit" onClick={handleBackClick}>등록 완료</SubmitButton>
             </Form>
         </Background>
     );

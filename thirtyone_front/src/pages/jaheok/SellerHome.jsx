@@ -34,6 +34,10 @@ const InfoItem = styled.div`
     margin: 5px 0;
 `;
 
+const InfoName = styled.div`
+    
+`
+
 const BtnBox = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -235,7 +239,7 @@ const SellerHome = () => {
             </Title>
             <IntroText>내 가게 정보를 확인하고 관리할 수 있어요</IntroText>
             <InfoBox>
-                <Image src="../assets/store.png" alt="Store" />
+                <Image src={`http://13.125.100.193${store.photo}`} alt="Store" />
                 <InfoItem>{store.name}</InfoItem>
                 <InfoItem>업종: {store.type}</InfoItem>
                 <InfoItem>전화번호: {store.tel}</InfoItem>

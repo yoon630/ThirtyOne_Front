@@ -170,7 +170,7 @@ const SellingManage = () => {
                             <ProductImage src={`http://13.125.100.193/media/${product.photo}`} alt="product" />
                             <ProductInfo>
                                 <ProductName>{product.name}</ProductName>
-                                <ProductPrice>{product.price}</ProductPrice>
+                                <ProductPrice>{product.price}원</ProductPrice>
                             </ProductInfo>
                             <ProductStock>
                                 <StockLabel>재고</StockLabel>
