@@ -6,7 +6,7 @@ const ConfirmationPopupContainer = styled.div`
     position: absolute;
     top: 650px;
     left: 50%;
-    width: 250px;
+    width: 200px;
     transform: translateX(-50%);
     background: rgba(217, 72, 68, 0.77);
     color: white;
@@ -21,7 +21,9 @@ const ConfirmationPopupContainer = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    width:160px
+    word-break: keep-all; /* 긴 단어 줄바꿈 */
+    word-wrap: break-word;
+    //white-space: pre-wrap; /* 공백과 줄바꿈 유지 */
   }
 `;
 
