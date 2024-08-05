@@ -130,10 +130,10 @@ const ProductRegistration = () => {
   const [amount, setAmount] = useState("");
   const [content, setContent] = useState("");
 
-    const navigate = useNavigate();
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const formData = new FormData();
     formData.append("photo", photo);
