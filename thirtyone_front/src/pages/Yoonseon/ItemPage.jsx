@@ -219,7 +219,7 @@ const ItemPage = () => {
         {isConfirmed && <ConfirmationPopup message={"예약이 완료되었어요"} />}
         {treeMessage && (
           <ConfirmationPopup
-            message={"소나무 60그루를 심었어요!"}
+            message={"소나무 0.29그루를 심었어요!"}
             showTree={true}
           />
         )}
