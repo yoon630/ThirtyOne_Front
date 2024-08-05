@@ -4,6 +4,8 @@ import Navbar from '../../components/Navbar';
 import StoreModal from './StoreModal';
 import ProductModal from './ProductModal';
 import axios from "axios";
+import { useParams, useLocation } from "react-router-dom";
+
 function Map() {
   const mapRef = useRef(null);
   const [center, setCenter] = useState({ lat: 37.451436, lng: 126.655978 });
@@ -11,7 +13,8 @@ function Map() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [markersData, setMarkersData] = useState([]);
-  
+  const { buyerId } = useParams(); // useParams 훅으로 buyerId 가져오기
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,12 +33,13 @@ function Map() {
             originalPrice: product.price,
             discountedPrice: product.sale_price,
             quantity: product.amount,
-            photo:product.photo,
-            store_id:store.id,
-            id:product.id,
+            photo: product.photo,
+            store_id: store.id,
+            id: product.id,
           }))
         }));
         setMarkersData(data);
+        console.log(buyerId);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -70,7 +74,7 @@ function Map() {
       map: mapRef.current,
       icon: {
         url: '../assets/currentlocation.svg', // 경로를 현재 위치 이미지로 변경
-        size: new naver.maps.Size(36, 36), // 이미지 크기 조정
+        size: new naver.maps.Size(32, 32), // 이미지 크기 조정
         origin: new naver.maps.Point(0, 0),
         anchor: new naver.maps.Point(12, 12) // 중심점을 맞추기 위해 설정
       }
@@ -81,6 +85,12 @@ function Map() {
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(markerData.lat, markerData.lng),
         map: mapRef.current,
+        icon: {
+          url: '../assets/logo_red2.svg', // 경로를 현재 위치 이미지로 변경
+          size: new naver.maps.Size(60, 60), // 이미지 크기 조정
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(12, 12) // 중심점을 맞추기 위해 설정
+        }
       });
 
       naver.maps.Event.addListener(marker, 'click', () => {
@@ -210,6 +220,7 @@ function Map() {
                 product={selectedProduct} 
                 onClose={() => setSelectedProduct(null)} 
                 onPick={handleProductPick} 
+                buyerId={buyerId} // buyerId 전달
               />
             </>
           )}

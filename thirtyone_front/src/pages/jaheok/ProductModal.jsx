@@ -38,8 +38,7 @@ const ModalContainer = styled.div`
   margin-bottom: 80px; /* Adjusted to keep the modal 80px from the bottom */
 `;
 
-
-function ProductModal({ product, onClose, onPick }) {
+function ProductModal({ product, onClose, onPick, buyerId }) { // buyerId 전달 받기
   if (!product) return null;
 
   const [quantity, setQuantity] = useState(1);
@@ -48,13 +47,14 @@ function ProductModal({ product, onClose, onPick }) {
   const decrementQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
   const handlePickClick = async () => {
-    console.log(`떨이 PICK clicked for product: ${product.name},${product.id} quantity: ${quantity}`);
+    console.log(`떨이 PICK clicked for product: ${product.name}, ${product.id} quantity: ${quantity}`);
+    console.log(buyerId);
     try {
       const response = await axios.post('http://13.125.100.193/buyer/pick', {
-        buyer:1,
+        buyer: buyerId, // buyerId.buyerId 사용
         sale_product: product.id,
         amount: quantity,
-        store:product.store_id,
+        store: product.store_id,
       });
       console.log('Response:', response.data);
       onPick();
@@ -62,12 +62,11 @@ function ProductModal({ product, onClose, onPick }) {
       console.error('Error posting pick:', error);
     }
   };
-  
 
   return (
     <ModalBackground onClick={onClose}>
       <ModalContainer onClick={e => e.stopPropagation()}>
-        <h3 style={{ color: '#D9534F',fontSize:'24px'}}>{product.name}</h3>
+        <h3 style={{ color: '#D9534F', fontSize: '24px' }}>{product.name}</h3>
         <p>{product.store}</p>
         <div style={{ marginBottom: '10px', display: 'flex' }}>
           <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '5px' }}>{product.originalPrice}원</span>
