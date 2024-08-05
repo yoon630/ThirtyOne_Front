@@ -45,7 +45,7 @@ const Label = styled.span`
 const categories = [
   {
     category: "BAK",
-    type: "빵 & 간식",
+    type: "빵 / 간식",
     icon: "/assets/bread.svg",
   },
   {

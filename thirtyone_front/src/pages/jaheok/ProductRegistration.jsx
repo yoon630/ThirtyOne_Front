@@ -1,101 +1,100 @@
-import React, { useState } from 'react';
-import styled , { keyframes, css }from 'styled-components';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import styled, { keyframes, css } from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
-    width: 100%;
-    max-width: 376px;
-    height: 100vh;
-    background-color: #ffffff;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  max-width: 376px;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Header = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 16px;
-    margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 20px;
 `;
 
 const BackIcon = styled.img`
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    position: absolute;
-    left: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
 `;
 const Title = styled.div`
-    width: 100%;
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin-top: 60px;
-    text-align: left;
-    color: #303030;
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 60px;
+  text-align: left;
+  color: #303030;
 `;
 
 const Form = styled.form`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const FormItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 const Label = styled.label`
-    font-size: 16px;
-    color: #3d3d3d;
+  font-size: 16px;
+  color: #3d3d3d;
 `;
 
 const Input = styled.input`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-sizing: border-box;
 `;
 
 const TextArea = styled.textarea`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-sizing: border-box;
-    resize: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  resize: none;
 `;
 
 const Select = styled.select`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-sizing: border-box;
 `;
 
-
 const SubmitButton = styled.button`
-    width: 100%;
-    padding: 15px;
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
 `;
 
 const HeaderContainer = styled.div`
@@ -123,35 +122,38 @@ const HeaderTitle = styled.div`
 `;
 
 const ProductRegistration = () => {
-    const [photo, setPhoto] = useState(null);
-    const [name, setName] = useState('');
-    const [productType, setProductType] = useState('');
-    const [price, setPrice] = useState('');
-    const [salePrice, setSalePrice] = useState('');
-    const [amount, setAmount] = useState('');
-    const [content, setContent] = useState('');
+  const [photo, setPhoto] = useState(null);
+  const [name, setName] = useState("");
+  const [productType, setProductType] = useState("");
+  const [price, setPrice] = useState("");
+  const [salePrice, setSalePrice] = useState("");
+  const [amount, setAmount] = useState("");
+  const [content, setContent] = useState("");
 
-    const navigate = useNavigate();
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const navigate = useNavigate();
 
-        const formData = new FormData();
-        formData.append('photo', photo);
-        formData.append('name', name);
-        formData.append('product_type', productType);
-        formData.append('price', price);
-        formData.append('sale_price', salePrice);
-        formData.append('amount', amount);
-        formData.append('content', content);
-        console.log(formData);
-        try {
-            const response = await axios.post('http://13.125.100.193/store/create/1/product', formData);
-            console.log('Product registered successfully:', response.data);
-        } catch (error) {
-            console.error('Error registering product:', error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("photo", photo);
+    formData.append("name", name);
+    formData.append("product_type", productType);
+    formData.append("price", price);
+    formData.append("sale_price", salePrice);
+    formData.append("amount", amount);
+    formData.append("content", content);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://13.125.100.193/store/create/1/product",
+        formData
+      );
+      console.log("Product registered successfully:", response.data);
+    } catch (error) {
+      console.error("Error registering product:", error);
+    }
+  };
 
     const handlePhotoChange = (e) => {
         setPhoto(e.target.files[0]);
